@@ -83,7 +83,7 @@ otherwise."
   (interactive)
   (if (and (bound-and-true-p local-emacs-rc--dir) local-emacs-rc--loaded)
       (message "[local-emacs-rc] Loaded: %s" local-emacs-rc--file)
-    (message "[local-emacs-rc] Not loaded: %s" local-emacs-rc-filename)))
+    (message "[local-emacs-rc] Not loaded")))
 
 (defun local-emacs-rc--buffer-cwd ()
   "Return the directory of the current buffer."

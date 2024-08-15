@@ -81,15 +81,13 @@ otherwise."
 (defun local-emacs-rc-get-dir ()
   "Return the directory of the currently loaded `.local-emacs-rc.el` file.
 Return `nil` if the local Emacs RC file has not been loaded."
-  (when (and (bound-and-true-p local-emacs-rc--loaded)
-             (bound-and-true-p local-emacs-rc--dir))
+  (when (bound-and-true-p local-emacs-rc--dir)
     local-emacs-rc--dir))
 
 (defun local-emacs-rc-get-file ()
   "Return the file of the currently loaded `.local-emacs-rc.el` file.
 Return `nil` if the local Emacs RC file has not been loaded."
-  (when (and (bound-and-true-p local-emacs-rc--loaded)
-             (bound-and-true-p local-emacs-rc--file))
+  (when (bound-and-true-p local-emacs-rc--file)
     local-emacs-rc--file))
 
 (defun local-emacs-rc-status ()

@@ -26,7 +26,7 @@ To install the `local-emacs-rc` using `straight.el`:
              :host github
              :repo "jamescherti/local-emacs-rc.el")
   :custom
-  (local-emacs-rc-verbose nil)
+  (local-emacs-rc-verbose t)
   (local-emacs-rc-filename ".local-emacs-rc.el")
   (local-emacs-rc-allowed-directories '("~/src" "~/projects"))
   (local-emacs-rc-denied-directories '("~/src/excluded_dir"))

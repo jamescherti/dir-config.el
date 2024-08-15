@@ -34,6 +34,36 @@ To install the `local-emacs-rc` using `straight.el`:
   (local-emacs-rc-mode))
 ```
 
+## Usage
+
+Assuming that Emacs has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `local-emacs-rc-allowed-directories` variable:
+```
+(setq local-emacs-rc-allowed-directories '("~/src" "~/projects"))
+```
+
+When a `.local-emacs-rc.el` file is placed in the `~/src` directory, Emacs will automatically load this file whenever a file within or below this directory or any of its subdirectories is opened.
+
+For instance, the following content could be added to the `~/src/.local-emacs-rc.el` file:
+``` emacs-lisp
+(when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
+  (let ((python_path_env (getenv "PYTHONPATH")))
+    ;; This ensures that the processes that are executed by Flycheck or Flake8,
+    ;; can access the environment variables PYTHONPATH.
+    (when (bound-and-true-p local-emacs-rc--dir)
+      (setq-local process-environment
+                  (cons (concat "PYTHONPATH="
+                                local-emacs-rc--dir
+                                (if python_path_env
+                                    (concat ":" python_path_env)
+                                  ""))
+                        process-environment)))))
+
+```
+
+This configuration snippet modifies the `PYTHONPATH` environment variable for buffers in Python modes. Specifically:
+
+This method allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
+
 ## License
 
 Copyright (C) 2023-2024 [James Cherti](https://www.jamescherti.com)

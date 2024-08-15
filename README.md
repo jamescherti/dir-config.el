@@ -1,12 +1,12 @@
 # local-emacs-rc - Automatically load local Emacs RC files
 ![License](https://img.shields.io/github/license/jamescherti/local-emacs-rc.el)
 
-The `local-emacs-rc' package automates the loading of Emacs configuration files from '.local-emacs-rc.el' files, allowing users to efficiently manage settings for various projects or workspaces.
+This `local-emacs-rc` Emacs package facilitates the search and loading of local configuration files (`.local-emacs-rc.el`) within the directory hierarchy of the currently active buffer. It searches for these `.local-emacs-rc.el` files starting from the directory of the open file and traverses upwards towards the root directory. By default, the package loads these configuration files in order from the root directory down to the directory of the file. 
 
 Features:
-- Recursive Search: Finds and loads '.local-emacs-rc.el' files from the current directory or one of its parent directories.
-- Interactive Functions: Provides tools to check and navigate to loaded settings.
-- Selective Loading: Restricts loading to directories specified in `local-emacs-rc-allowed-directories'.
+- Automatic Configuration Discovery: Searches for and loads `.local-emacs-rc.el` files from the
+  directory of the current buffer and its parent directories up to the root.
+- Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-emacs-rc-allowed-directories` and `local-emacs-rc-denied-directories`, ensuring control over where configuration files are sourced from.
 
 ## Installation
 

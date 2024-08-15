@@ -52,7 +52,7 @@ For instance, the following content could be added to the `~/src/.local-emacs-rc
     (when (bound-and-true-p local-emacs-rc--dir)
       (setq-local process-environment
                   (cons (concat "PYTHONPATH="
-                                local-emacs-rc--dir
+                                (local-emacs-rc-get-dir)
                                 (if python_path_env
                                     (concat ":" python_path_env)
                                   ""))

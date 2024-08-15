@@ -43,7 +43,7 @@ Assuming that Emacs has been configured to allow loading configuration files fro
 
 When a `.local-emacs-rc.el` file is placed in the `~/src` directory, Emacs will automatically load this file whenever a file within or below this directory or any of its subdirectories is opened.
 
-For instance, the following content could be added to the `~/src/.local-emacs-rc.el` file:
+For instance, the following content could be added to the `~/src/.local-emacs-rc.el` file to modify the `PYTHONPATH` environment variable for buffers in Python modes:
 ``` emacs-lisp
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python_path_env (getenv "PYTHONPATH")))
@@ -59,8 +59,6 @@ For instance, the following content could be added to the `~/src/.local-emacs-rc
                         process-environment)))))
 
 ```
-
-This configuration snippet modifies the `PYTHONPATH` environment variable for buffers in Python modes. Specifically:
 
 This method allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
 

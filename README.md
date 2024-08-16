@@ -41,7 +41,7 @@ Assuming that Emacs has been configured to allow loading configuration files fro
 (setq local-emacs-rc-allowed-directories '("~/src" "~/projects"))
 ```
 
-For instance, adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` file can modify the `PYTHONPATH` environment variable for Python buffers. Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the project's modules:
+For instance, adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` file can modify the `PYTHONPATH` environment variable for Python buffers within that directory and its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the project's modules:
 ``` emacs-lisp
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))

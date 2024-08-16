@@ -36,7 +36,7 @@ To install the `local-config` using `straight.el`:
 ```
 
 Note:
-- You can customize the local configuration file names by modifying `local-config-file-names`: ```(setq local-config-file-names '(".project-config.el" ".dir-config.el"))```. With this configuration, Emacs will search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
+- You can customize the local configuration file names by modifying: ```(setq local-config-file-names '(".project-config.el" ".dir-config.el"))```. With this configuration, Emacs will search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
 
 ## Usage
 

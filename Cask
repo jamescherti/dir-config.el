@@ -1,4 +1,4 @@
 (source gnu)
 (source melpa)
 
-(package-file "local-config.el")
+(package-file "dir-config.el")

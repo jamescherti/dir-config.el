@@ -1,6 +1,6 @@
 #
 # Copyright (C) 2024 James Cherti | https://www.jamescherti.com/contact/
-# URL: https://github.com/jamescherti/local-config.el
+# URL: https://github.com/jamescherti/dir-config.el
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,4 +35,4 @@ compile: cask
 
 .PHONY: test
 test: compile
-	cask emacs --batch -L . -L tests -l tests/test-local-config.el -f test-local-config
+	cask emacs --batch -L . -L tests -l tests/test-dir-config.el -f test-dir-config

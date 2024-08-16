@@ -67,7 +67,7 @@ jobs:
 
       - name: Run melpazoid
         env:
-          RECIPE: (local-config :repo "jamescherti/local-config.el" :branch "${{ github.ref_name }}" :fetcher github :files ("local-config.el"))
+          RECIPE: (dir-config :repo "jamescherti/dir-config.el" :branch "${{ github.ref_name }}" :fetcher github :files ("dir-config.el"))
           EXIST_OK: false
         run: echo $GITHUB_REF && make -C ~/melpazoid
 

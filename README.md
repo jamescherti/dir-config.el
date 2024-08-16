@@ -1,65 +1,65 @@
-# local-emacs-rc - Automatically find and load local Emacs RC files
-![License](https://img.shields.io/github/license/jamescherti/local-emacs-rc.el)
+# local-config - Automatically find and load local Emacs RC files
+![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 
-This `local-emacs-rc` Emacs package facilitates the search and loading of local configuration files (`.local-emacs-rc.el`) within the directory of the buffer or its parent directories.
+This `local-config` Emacs package facilitates the search and loading of local configuration files (`.local-config.el`) within the directory of the buffer or its parent directories.
 
 Features:
-- Automatic Configuration Discovery: Searches for and loads `.local-emacs-rc.el` file from the
+- Automatic Configuration Discovery: Searches for and loads `.local-config.el` file from the
   directory of the current buffer and its parent directories up to the root.
-- Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-emacs-rc-allowed-directories` and `local-emacs-rc-denied-directories`, ensuring control over where configuration files are sourced from.
-- The `local-emacs-rc-mode` mode: Automatically loads the `.local-emacs-rc.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
+- Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-config-allowed-directories` and `local-config-denied-directories`, ensuring control over where configuration files are sourced from.
+- The `local-config-mode` mode: Automatically loads the `.local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
 
 ## Installation
 
 ### Install using straight
 
-To install the `local-emacs-rc` using `straight.el`:
+To install the `local-config` using `straight.el`:
 
 1. If you haven't already done so, [add the straight.el bootstrap code](https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started) to your init file.
 
 2. Add the following code to your Emacs init file:
 ``` emacs-lisp
-(use-package local-emacs-rc
+(use-package local-config
   :ensure t
-  :straight (local-emacs-rc
+  :straight (local-config
              :type git
              :host github
-             :repo "jamescherti/local-emacs-rc.el")
+             :repo "jamescherti/local-config.el")
   :custom
-  (local-emacs-rc-verbose t)
-  (local-emacs-rc-filename ".local-emacs-rc.el")
-  (local-emacs-rc-allowed-directories '("~/src" "~/projects"))
-  (local-emacs-rc-denied-directories '("~/src/excluded_dir"))
+  (local-config-verbose t)
+  (local-config-filename ".local-config.el")
+  (local-config-allowed-directories '("~/src" "~/projects"))
+  (local-config-denied-directories '("~/src/excluded_dir"))
   :config
-  (local-emacs-rc-mode))
+  (local-config-mode))
 ```
 
 ## Usage
 
-Assuming that the `local-emacs-rc-dir` package has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `local-emacs-rc-allowed-directories` variable:
+Assuming that the `local-config-dir` package has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `local-config-allowed-directories` variable:
 ``` emacs-lisp
-(setq local-emacs-rc-allowed-directories '("~/src" "~/projects"))
+(setq local-config-allowed-directories '("~/src" "~/projects"))
 ```
 
-Adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
+Adding the following code to the `~/src/my_python_project/.local-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
-;;; .local-emacs-rc.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
 
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))
-        (local-emacs-rc-dir (local-emacs-rc-get-dir)))
-    (when local-emacs-rc-dir
+        (local-config-dir (local-config-get-dir)))
+    (when local-config-dir
       (setenv "PYTHONPATH"
-              (concat local-emacs-rc-dir (when python-path
+              (concat local-config-dir (when python-path
                                            (concat ":" python-path)))))))
 ```
 
-It is recommended to always begin your `.local-emacs-rc.el` files with the following header:
+It is recommended to always begin your `.local-config.el` files with the following header:
 ```
-;;; .local-emacs-rc.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
 ```
 
-The `local-emacs-rc-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
+The `local-config-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
 
 ## License
 
@@ -73,4 +73,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ## Links
 
-- [local-emacs-rc.el @GitHub](https://github.com/jamescherti/local-emacs-rc.el)
+- [local-config.el @GitHub](https://github.com/jamescherti/local-config.el)

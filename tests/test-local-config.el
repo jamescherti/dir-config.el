@@ -1,10 +1,10 @@
-;;; test-local-emacs-rc.el --- Short description of your project  -*- lexical-binding: t; -*-
+;;; test-local-config.el --- Short description of your project  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2024 James Cherti | https://www.jamescherti.com/contact/
 
 ;; Author: James Cherti
 ;; Version: 0.9.9
-;; URL: https://github.com/jamescherti/local-emacs-rc.el
+;; URL: https://github.com/jamescherti/local-config.el
 ;; Keywords: convenience
 ;; Package-Requires: ((emacs "24.1"))
 ;; SPDX-License-Identifier: GPL-3.0-or-later
@@ -23,14 +23,14 @@
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; Test the local-emacs-rc package.
+;; Test the local-config package.
 
 ;;; Code:
 
-(defun test-local-emacs-rc ()
-  "Test local-emacs-rc."
+(defun test-local-config ()
+  "Test local-config."
   (interactive)
   t)
 
-(provide 'test-local-emacs-rc)
-;;; test-local-emacs-rc.el ends here
+(provide 'test-local-config)
+;;; test-local-config.el ends here

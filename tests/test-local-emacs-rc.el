@@ -23,7 +23,7 @@
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; Test local-emacs-rc.
+;; Test the local-emacs-rc package.
 
 ;;; Code:
 

@@ -1,4 +1,5 @@
 # local-config - Automatically find and load local Emacs RC files
+![Build Status](https://github.com/jamescherti/local-config.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 
 This `local-config` Emacs package facilitates the search and loading of local configuration files (`.local-config.el`) within the directory of the buffer or its parent directories.

@@ -2,13 +2,13 @@
 ![Build Status](https://github.com/jamescherti/local-config.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 
-This `local-config` Emacs package facilitates the search and loading of local configuration files (`.emacs-local-config.el`) within the directory of the buffer or its parent directories.
+The `local-config` Emacs package automatically loads and evaluates Elisp code from `.emacs-local-config.el` files whenever a buffer is opened. This feature allows Emacs to adjust settings or run functions based on the directory or its subdirectories containing the `.emacs-local-config.el` file.
 
 Features:
-- Automatic Configuration Discovery: Searches for and loads `.emacs-local-config.el` file from the
-  directory of the current buffer or its parent directories.
+- Automatic Configuration Discovery: Searches for and loads `.emacs-local-config.el` file from the directory of the current buffer or its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-config-allowed-directories` and `local-config-denied-directories`, ensuring control over where configuration files are sourced from.
 - The `local-config-mode` mode: Automatically loads the `.emacs-local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
+- The `.emacs-local-config.el` file name can be changed by modifying the `local-config-file-names` alist
 
 ## Installation
 

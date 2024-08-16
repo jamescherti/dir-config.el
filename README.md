@@ -54,7 +54,10 @@ Adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` fi
                                            (concat ":" python-path)))))))
 ```
 
-(It is recommended to begin your `.local-emacs-rc.el` files with the following header: ```;;; .local-emacs-rc.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-```)
+It is recommended to always begin your `.local-emacs-rc.el` files with the following header:
+```
+;;; .local-emacs-rc.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+```
 
 The `local-emacs-rc-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
 

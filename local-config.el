@@ -117,7 +117,8 @@ Return `nil` if the local Emacs RC file has not been loaded."
 (defun local-config-status ()
   "Check if local Emacs RC have been loaded for the current buffer."
   (interactive)
-  (if (and (bound-and-true-p local-config--dir) local-config--loaded)
+  (if (and (bound-and-true-p local-config--dir)
+           (bound-and-true-p local-config--loaded))
       (message "[local-config] Loaded: %s" local-config--file)
     (message "[local-config] Not loaded")))
 
@@ -179,7 +180,6 @@ Only loads settings if the directory is allowed and not denied."
                  (denied-dir-p (local-config--directory-allowed-p
                                 (list current-dir local-config-file)
                                 local-config-denied-directories)))
-            (setq-local local-config--loaded nil)
             (setq-local local-config--allowed-p (and allowed-dir-p
                                                      (not denied-dir-p)))
             (setq-local local-config--dir local-config-dir)

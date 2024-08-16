@@ -1,4 +1,4 @@
-;;; local-config.el --- Automatically load local Emacs RC files -*- lexical-binding: t; -*-
+;;; local-config.el --- Automatically load local Elisp config file -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2003-2024  James Cherti | https://www.jamescherti.com/contact/
 
@@ -23,7 +23,7 @@
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; This `local-config` Emacs package facilitates the search and loading of local
+;; This `local-config' Emacs package facilitates the search and loading of local
 ;; configuration files (`.emacs-local-config.el`) within the directory of the
 ;; buffer or its parent directories.
 ;;
@@ -69,7 +69,12 @@ file'."
   :group 'local-config)
 
 (defcustom local-config-verbose nil
-  "Enable verbose mode to log when a local Emacs RC file is loaded or ignored."
+  "Enable verbose mode to log when a local config file is loaded or ignored."
+  :type 'boolean
+  :group 'local-config)
+
+(defcustom local-config-debug nil
+  "Enable debug mode to log when a local config file is loaded or ignored."
   :type 'boolean
   :group 'local-config)
 
@@ -104,18 +109,18 @@ otherwise."
 
 (defun local-config-get-dir ()
   "Return the directory of the currently loaded local config file.
-Return `nil` if the local Emacs RC file has not been loaded."
+Return `nil` if the local config file has not been loaded."
   (when (bound-and-true-p local-config--dir)
     local-config--dir))
 
 (defun local-config-get-file ()
   "Return the file of the currently loaded local config file.
-Return `nil` if the local Emacs RC file has not been loaded."
+Return `nil` if the local config file has not been loaded."
   (when (bound-and-true-p local-config--file)
     local-config--file))
 
 (defun local-config-status ()
-  "Check if local Emacs RC have been loaded for the current buffer."
+  "Check if local config file have been loaded for the current buffer."
   (interactive)
   (if (and (bound-and-true-p local-config--dir)
            (bound-and-true-p local-config--loaded))
@@ -156,10 +161,10 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
   (let ((local-config-file (local-config-get-file)))
     (if local-config-file
         (find-file local-config-file)
-      (message "[local-config] The local Emacs RC file was not found."))))
+      (message "[local-config] The local Emacs config file was not found."))))
 
 (defun local-config-load ()
-  "Load local Emacs RC file for CURRENT-FILE from the closest parent directory.
+  "Load local config file for CURRENT-FILE from the closest parent directory.
 Only loads settings if the directory is allowed and not denied."
   (setq-local local-config--loaded nil)
   (setq-local local-config--allowed-p nil)
@@ -190,13 +195,14 @@ Only loads settings if the directory is allowed and not denied."
                   (setq-local local-config--loaded t)
                   (when local-config-verbose
                     (message "[local-config] Load: %s" local-config-file)))
-              (when local-config-verbose
-                (message "[local-config] Ignore: %s" local-config-file))))
-        (message (concat "[local-config] None of the local Emacs RC "
-                         "files %s were found in '%s' "
-                         "or one of its parents")
-                 local-config-file-names
-                 current-dir)))))
+              (when local-config-debug
+                (message "[local-config] Not allowed: %s" local-config-file))))
+        (when local-config-debug
+          (message (concat "[local-config] None of the local config "
+                           "files %s were found in '%s' "
+                           "or one of its parents")
+                   local-config-file-names
+                   current-dir))))))
 
 ;;;###autoload
 (define-minor-mode local-config-mode
@@ -204,7 +210,7 @@ Only loads settings if the directory is allowed and not denied."
 When enabled, `local-config-mode' loads directory-specific settings
 automatically."
   :global t
-  :lighter " LEmacsRC"
+  :lighter " LocCfg"
   :group 'local-config
   (if local-config-mode
       (add-hook 'find-file-hook #'local-config-load)

@@ -6,7 +6,7 @@ The `local-config` Emacs package automatically loads and evaluates Elisp code fr
 
 For instance, you can use the `local-config` package to:
 - **Configure project-specific settings**: Automatically set up environment variables, keybindings, or modes unique to each project.
-- **Apply directory-specific customizations**: Set specific behaviors or preferences for files in different directories, such as enabling or disabling certain minor modes based on security considerations. For example, you might disable linters or code executors in directories where you handle untrusted code.
+- **Apply directory-specific customizations**: Set specific behaviors or preferences for files in different directories, such as enabling or disabling certain minor modes based on security considerations. For example, you might disable linters that execute code in directories where you handle untrusted code.
 - **Manage multiple environments**: Switch between different coding environments or workflows by loading environment-specific configurations.
 
 Features:

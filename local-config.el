@@ -76,6 +76,12 @@ it will then search for '.my-emacs-rc.el'."
   :type '(repeat directory)
   :group 'local-config)
 
+;; Internal variables
+(defvar local-config--loaded nil)
+(defvar local-config--allowed-p nil)
+(defvar local-config--dir nil)
+(defvar local-config--file nil)
+
 (defun local-config--directory-allowed-p (file-list allowed-directories)
   "Check if all files in FILE-LIST are in one of the ALLOWED-DIRECTORIES.
 Returns t if all files are within one of the allowed directories, nil
@@ -143,11 +149,6 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
     (if local-config-file
         (find-file local-config-file)
       (message "[local-config] The local Emacs RC file was not found."))))
-
-(defvar local-config--loaded nil)
-(defvar local-config--allowed-p nil)
-(defvar local-config--dir nil)
-(defvar local-config--file nil)
 
 (defun local-config-load ()
   "Load local Emacs RC file for CURRENT-FILE from the closest parent directory.

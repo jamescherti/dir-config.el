@@ -1,8 +1,13 @@
-# local-config - Automatically find and load local Elisp config files
+# local-config.el - Automatically find and load local Elisp config files
 ![Build Status](https://github.com/jamescherti/local-config.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 
-The `local-config` Emacs package automatically loads and evaluates Elisp code from `.emacs-local-config.el` files whenever a buffer is opened. This feature allows Emacs to adjust settings or run functions based on the directory or its subdirectories containing the `.emacs-local-config.el` file.
+The `local-config` Emacs package automatically loads and evaluates Elisp code from a `.emacs-local-config.el` file found in the buffer's current directory or any of its parent directories. This enables Emacs to adjust settings or execute functions specific to the directory structure of each buffer.
+
+For instance, you can use the `local-config` package to:
+- **Configure project-specific settings**: Automatically set up environment variables, keybindings, or modes unique to each project.
+- **Apply directory-specific customizations**: Set specific behaviors or preferences for files in different directories, such as enabling or disabling certain minor modes based on security considerations. For example, you might disable linters or code executors in directories where you handle untrusted code.
+- **Manage multiple environments**: Switch between different coding environments or workflows by loading environment-specific configurations.
 
 Features:
 - Automatic Configuration Discovery: Searches for and loads `.emacs-local-config.el` file from the directory of the current buffer or its parent directories.

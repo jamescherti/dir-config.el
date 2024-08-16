@@ -57,9 +57,9 @@ from the buffer's directory and moving upward through its parent directories.
 Each entry in this list should be a string representing a filename. The
 first existing file found in the hierarchy will be used for configuration.
 
-For example, if the list contains '('.local-config.el' '.my-emacs-rc.el'),
-Emacs will search for '.local-config.el' first, and if it is not found,
-it will then search for '.my-emacs-rc.el'."
+For example, if the list contains the .local-config.el and .my-emacs-rc.el
+files, Emacs will search for the .local-config.el file first, and if it is not
+found, it will then search for the .my-emacs-rc.el file'."
   :type '(repeat string)
   :group 'local-config)
 

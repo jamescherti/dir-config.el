@@ -12,8 +12,8 @@ For instance, you can use the `dir-config` package to:
 Features:
 - Automatic Configuration Discovery: Searches for and loads `.dir-config.el` file from the directory of the current buffer or its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `dir-config-allowed-directories` and `dir-config-denied-directories`, ensuring control over where configuration files are sourced from.
-- The `dir-config-mode` mode: Automatically loads the `.dir-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that the dir configurations are applied.
-- The `.dir-config.el` file name can be changed by modifying the `dir-config-file-names` alist
+- The `dir-config-mode` mode: Automatically loads the `.dir-config.el` file whenever a file or directory is opened, leveraging the `find-file-hook` to ensure that the dir configurations are applied.
+- The `.dir-config.el` file name can be changed by modifying the `dir-config-file-names` defcustom.
 
 ## Installation
 
@@ -32,7 +32,6 @@ To install the `dir-config` using `straight.el`:
              :host github
              :repo "jamescherti/dir-config.el")
   :custom
-  (dir-config-verbose t)
   (dir-config-file-names '(".dir-config.el"))
   (dir-config-allowed-directories '("~/src" "~/projects"))
   (dir-config-denied-directories '("~/src/excluded_dir"))
@@ -42,6 +41,7 @@ To install the `dir-config` using `straight.el`:
 
 Note:
 - The dir-config file names can be customized by modifying: ```(setq dir-config-file-names '(".project-config.el" ".dir-config.el"))```. With this configuration, Emacs will search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
+- You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `dir-config-mode` is active.
 
 ## Usage
 

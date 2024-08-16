@@ -46,9 +46,18 @@
           "https://github.com/jamescherti/local-emacs-rc.el"))
 
 (defcustom local-emacs-rc-file-names '(".local-emacs-rc.el")
-  "List of local Emacs RC file names to search for.
-Each entry should be a string representing a filename. The configuration will
-search for these files in the directory hierarchy of the current buffer."
+  "List of filenames for local Emacs configuration files.
+
+This list contains filenames that Emacs will search for in the directory
+hierarchy of the current buffer. Emacs will look for these files starting
+from the buffer's directory and moving upward through its parent directories.
+
+Each entry in this list should be a string representing a filename. The
+first existing file found in the hierarchy will be used for configuration.
+
+For example, if the list contains '('.local-emacs-rc.el' '.my-emacs-rc.el'),
+Emacs will search for '.local-emacs-rc.el' first, and if it is not found,
+it will then search for '.my-emacs-rc.el'."
   :type '(repeat string)
   :group 'local-emacs-rc)
 
@@ -133,7 +142,7 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
   (let ((local-emacs-rc-file (local-emacs-rc-get-file)))
     (if local-emacs-rc-file
         (find-file local-emacs-rc-file)
-      (message "The local Emacs RC file was not found."))))
+      (message "[local-emacs-rc] The local Emacs RC file was not found."))))
 
 (defun local-emacs-rc-load ()
   "Load local Emacs RC file for CURRENT-FILE from the closest parent directory.

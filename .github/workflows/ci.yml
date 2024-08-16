@@ -35,13 +35,13 @@ jobs:
           - 3.11
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ "{{ matrix.python-version }}" }}
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ "{{ matrix.python-version }}" }}
+          python-version: ${{ matrix.python-version }}
       - uses: purcell/setup-emacs@master
         with:
-          version: ${{ "{{ matrix.emacs-version }}" }}
+          version: ${{ matrix.emacs-version }}
       - uses: actions/cache@v2
         id: cache-cask-packages
         with:

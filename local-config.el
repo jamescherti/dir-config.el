@@ -144,14 +144,23 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
         (find-file local-config-file)
       (message "[local-config] The local Emacs RC file was not found."))))
 
+(defvar local-config--loaded nil)
+(defvar local-config--allowed-p nil)
+(defvar local-config--dir nil)
+(defvar local-config--file nil)
+
 (defun local-config-load ()
   "Load local Emacs RC file for CURRENT-FILE from the closest parent directory.
 Only loads settings if the directory is allowed and not denied."
+  (setq-local local-config--loaded nil)
+  (setq-local local-config--allowed-p nil)
+  (setq-local local-config--dir nil)
+  (setq-local local-config--file nil)
   (unless (bound-and-true-p local-config-disable)
     (let* ((current-dir (local-config--buffer-cwd))
            (local-config-file
             (local-config--find-dominating-file local-config-file-names
-                                                  current-dir)))
+                                                current-dir)))
       (unless current-dir
         (error "[local-config] Failed to read the current working directory"))
       (if local-config-file
@@ -164,7 +173,7 @@ Only loads settings if the directory is allowed and not denied."
                                 local-config-denied-directories)))
             (setq-local local-config--loaded nil)
             (setq-local local-config--allowed-p (and allowed-dir-p
-                                                       (not denied-dir-p)))
+                                                     (not denied-dir-p)))
             (setq-local local-config--dir local-config-dir)
             (setq-local local-config--file local-config-file)
             (if local-config--allowed-p

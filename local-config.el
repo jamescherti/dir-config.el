@@ -23,17 +23,21 @@
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; The `local-config' package automates the loading of Emacs configuration
-;; files from '.local-config.el' files, allowing users to efficiently manage
-;; settings for various projects or workspaces.
+;; This `local-config` Emacs package facilitates the search and loading of local
+;; configuration files (`.emacs-local-config.el`) within the directory of the
+;; buffer or its parent directories.
 ;;
 ;; Features:
-;; - Recursive Search: Finds and loads '.local-config.el' files from the
-;;   current directory or one of its parent directories.
-;; - Interactive Functions: Provides tools to check and navigate to loaded
-;;   settings.
-;; - Selective Loading: Restricts loading to directories specified in
-;;   `local-config-allowed-directories'.
+;; - Automatic Configuration Discovery: Searches for and loads
+;;   '.emacs-local-config.el' file from the directory of the current buffer or
+;;   its parent directories.
+;; - Selective Directory Loading: Restricts the loading of configuration files
+;;   to directories listed in the variable `local-config-allowed-directories'
+;;   and `local-config-denied-directories', ensuring control over where
+;;   configuration files are sourced from.
+;; - The `local-config-mode' mode: Automatically loads the
+;;   '.emacs-local-config.el' file whenever a file is opened, leveraging the
+;;   `find-file-hook' to ensure that local configurations are applied.
 
 ;;; Code:
 
@@ -47,7 +51,7 @@
           :tag "Github"
           "https://github.com/jamescherti/local-config.el"))
 
-(defcustom local-config-file-names '(".local-config.el")
+(defcustom local-config-file-names '(".emacs-local-config.el")
   "List of filenames for local Emacs configuration files.
 
 This list contains filenames that Emacs will search for in the directory
@@ -57,9 +61,10 @@ from the buffer's directory and moving upward through its parent directories.
 Each entry in this list should be a string representing a filename. The
 first existing file found in the hierarchy will be used for configuration.
 
-For example, if the list contains the .local-config.el and .my-emacs-rc.el
-files, Emacs will search for the .local-config.el file first, and if it is not
-found, it will then search for the .my-emacs-rc.el file'."
+For example, if the list contains the .emacs-local-config.el and
+.project-config.el files, Emacs will search for the .emacs-local-config.el file
+first, and if it is not found, it will then search for the .project-config.el
+file'."
   :type '(repeat string)
   :group 'local-config)
 
@@ -69,12 +74,12 @@ found, it will then search for the .my-emacs-rc.el file'."
   :group 'local-config)
 
 (defcustom local-config-allowed-directories '()
-  "List of directory names where '.local-config.el' is allowed."
+  "List of directory names where local config files are allowed."
   :type '(repeat directory)
   :group 'local-config)
 
 (defcustom local-config-denied-directories '()
-  "List of directory names where '.local-config.el' is denied."
+  "List of directory names where local config files are denied."
   :type '(repeat directory)
   :group 'local-config)
 
@@ -98,13 +103,13 @@ otherwise."
    allowed-directories))
 
 (defun local-config-get-dir ()
-  "Return the directory of the currently loaded `.local-config.el` file.
+  "Return the directory of the currently loaded local config file.
 Return `nil` if the local Emacs RC file has not been loaded."
   (when (bound-and-true-p local-config--dir)
     local-config--dir))
 
 (defun local-config-get-file ()
-  "Return the file of the currently loaded `.local-config.el` file.
+  "Return the file of the currently loaded local config file.
 Return `nil` if the local Emacs RC file has not been loaded."
   (when (bound-and-true-p local-config--file)
     local-config--file))

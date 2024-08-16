@@ -2,13 +2,13 @@
 ![Build Status](https://github.com/jamescherti/local-config.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 
-This `local-config` Emacs package facilitates the search and loading of local configuration files (`.local-config.el`) within the directory of the buffer or its parent directories.
+This `local-config` Emacs package facilitates the search and loading of local configuration files (`.emacs-local-config.el`) within the directory of the buffer or its parent directories.
 
 Features:
-- Automatic Configuration Discovery: Searches for and loads `.local-config.el` file from the
-  directory of the current buffer and its parent directories.
+- Automatic Configuration Discovery: Searches for and loads `.emacs-local-config.el` file from the
+  directory of the current buffer or its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-config-allowed-directories` and `local-config-denied-directories`, ensuring control over where configuration files are sourced from.
-- The `local-config-mode` mode: Automatically loads the `.local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
+- The `local-config-mode` mode: Automatically loads the `.emacs-local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
 
 ## Installation
 
@@ -28,7 +28,7 @@ To install the `local-config` using `straight.el`:
              :repo "jamescherti/local-config.el")
   :custom
   (local-config-verbose t)
-  (local-config-filename ".local-config.el")
+  (local-config-file-names '(".emacs-local-config.el"))
   (local-config-allowed-directories '("~/src" "~/projects"))
   (local-config-denied-directories '("~/src/excluded_dir"))
   :config
@@ -42,9 +42,9 @@ Assuming that the `local-config-dir` package has been configured to allow loadin
 (setq local-config-allowed-directories '("~/src" "~/projects"))
 ```
 
-Adding the following code to the `~/src/my_python_project/.local-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
+Adding the following code to the `~/src/my_python_project/.emacs-local-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
-;;; .local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .emacs-local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
 
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))
@@ -55,9 +55,9 @@ Adding the following code to the `~/src/my_python_project/.local-config.el` file
                                            (concat ":" python-path)))))))
 ```
 
-It is recommended to always begin your `.local-config.el` files with the following header:
+It is recommended to always begin your `.emacs-local-config.el` files with the following header:
 ```
-;;; .local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .emacs-local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
 ```
 
 The `local-config-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.

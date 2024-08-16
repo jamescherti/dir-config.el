@@ -17,7 +17,7 @@ To install the `local-emacs-rc` using `straight.el`:
 
 1. If you haven't already done so, [add the straight.el bootstrap code](https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started) to your init file.
 
-2. [ ] Add the following code to your Emacs init file:
+2. Add the following code to your Emacs init file:
 ```
 (use-package local-emacs-rc
   :ensure t

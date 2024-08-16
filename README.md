@@ -52,7 +52,7 @@ Assuming that the `local-config-dir` package has been configured to allow loadin
 
 Adding the following code to the `~/src/my_python_project/.emacs-local-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
-;;; .emacs-local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .emacs-local-config.el --- Local Emacs config -*- no-byte-compile: t; lexical-binding: t; -*-
 
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))
@@ -65,7 +65,7 @@ Adding the following code to the `~/src/my_python_project/.emacs-local-config.el
 
 It is recommended to always begin your `.emacs-local-config.el` files with the following header:
 ```
-;;; .emacs-local-config.el --- Local Emacs RC -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .emacs-local-config.el --- Local Emacs config -*- no-byte-compile: t; lexical-binding: t; -*-
 ```
 
 The `local-config-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.

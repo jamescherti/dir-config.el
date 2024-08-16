@@ -47,10 +47,9 @@ For instance, adding the following code to the `~/src/my_python_project/.local-e
   (let ((python-path (getenv "PYTHONPATH"))
         (local-emacs-rc-dir (local-emacs-rc-get-dir)))
     (when local-emacs-rc-dir
-      (when local-emacs-rc-dir
-        (setenv "PYTHONPATH"
-                (concat local-emacs-rc-dir
-                        (when python-path (concat ":" python-path))))))))
+      (setenv "PYTHONPATH"
+              (concat local-emacs-rc-dir (when python-path
+                                           (concat ":" python-path)))))))
 ```
 
 This method allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.

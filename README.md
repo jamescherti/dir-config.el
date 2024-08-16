@@ -1,4 +1,4 @@
-# local-config - Automatically find and load local Emacs RC files
+# local-config - Automatically find and load local Elisp config files
 ![Build Status](https://github.com/jamescherti/local-config.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 

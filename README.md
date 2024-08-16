@@ -18,7 +18,7 @@ To install the `local-emacs-rc` using `straight.el`:
 1. If you haven't already done so, [add the straight.el bootstrap code](https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started) to your init file.
 
 2. Add the following code to your Emacs init file:
-```
+``` emacs-lisp
 (use-package local-emacs-rc
   :ensure t
   :straight (local-emacs-rc
@@ -36,12 +36,12 @@ To install the `local-emacs-rc` using `straight.el`:
 
 ## Usage
 
-Assuming that Emacs has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `local-emacs-rc-allowed-directories` variable:
-```
+Assuming that the `local-emacs-rc-dir` package has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `local-emacs-rc-allowed-directories` variable:
+``` emacs-lisp
 (setq local-emacs-rc-allowed-directories '("~/src" "~/projects"))
 ```
 
-For instance, adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` file can modify the `PYTHONPATH` environment variable for Python buffers within that directory and its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the project's modules:
+Adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))
@@ -52,7 +52,7 @@ For instance, adding the following code to the `~/src/my_python_project/.local-e
                                            (concat ":" python-path)))))))
 ```
 
-This method allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
+The `local-emacs-rc-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
 
 ## License
 

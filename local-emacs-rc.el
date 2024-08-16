@@ -175,8 +175,10 @@ Only loads settings if the directory is allowed and not denied."
                     (message "[local-emacs-rc] Load: %s" local-emacs-rc-file)))
               (when local-emacs-rc-verbose
                 (message "[local-emacs-rc] Ignore: %s" local-emacs-rc-file))))
-        (message (concat "[local-emacs-rc] The file was not found in the "
-                         "current directories or one of its parents: %s")
+        (message (concat "[local-emacs-rc] None of the local Emacs RC "
+                         "files %s were found in '%s' "
+                         "or one of its parents")
+                 local-emacs-rc-file-names
                  current-dir)))))
 
 ;;;###autoload

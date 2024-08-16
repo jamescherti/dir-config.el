@@ -6,7 +6,7 @@ This `local-config` Emacs package facilitates the search and loading of local co
 
 Features:
 - Automatic Configuration Discovery: Searches for and loads `.local-config.el` file from the
-  directory of the current buffer and its parent directories up to the root.
+  directory of the current buffer and its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-config-allowed-directories` and `local-config-denied-directories`, ensuring control over where configuration files are sourced from.
 - The `local-config-mode` mode: Automatically loads the `.local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
 

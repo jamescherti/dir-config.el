@@ -37,6 +37,8 @@
 
 ;;; Code:
 
+(require 'dired)
+
 (defgroup local-config nil
   "Non-nil if local-config mode mode is enabled."
   :group 'local-config

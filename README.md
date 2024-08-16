@@ -2,7 +2,7 @@
 ![Build Status](https://github.com/jamescherti/local-config.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/local-config.el)
 
-The `local-config` Emacs package automatically loads and evaluates Elisp code from a `.emacs-local-config.el` file found in the buffer's current directory or any of its parent directories. This enables Emacs to adjust settings or execute functions specific to the directory structure of each buffer.
+The `local-config` Emacs package automatically loads and evaluates Elisp code from a `.local-config.el` file found in the buffer's current directory or any of its parent directories. This enables Emacs to adjust settings or execute functions specific to the directory structure of each buffer.
 
 For instance, you can use the `local-config` package to:
 - **Configure project-specific settings**: Automatically set up environment variables, keybindings, or modes unique to each project.
@@ -10,10 +10,10 @@ For instance, you can use the `local-config` package to:
 - **Manage multiple environments**: Switch between different coding environments or workflows by loading environment-specific configurations.
 
 Features:
-- Automatic Configuration Discovery: Searches for and loads `.emacs-local-config.el` file from the directory of the current buffer or its parent directories.
+- Automatic Configuration Discovery: Searches for and loads `.local-config.el` file from the directory of the current buffer or its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `local-config-allowed-directories` and `local-config-denied-directories`, ensuring control over where configuration files are sourced from.
-- The `local-config-mode` mode: Automatically loads the `.emacs-local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
-- The `.emacs-local-config.el` file name can be changed by modifying the `local-config-file-names` alist
+- The `local-config-mode` mode: Automatically loads the `.local-config.el` file whenever a file is opened, leveraging the `find-file-hook` to ensure that local configurations are applied.
+- The `.local-config.el` file name can be changed by modifying the `local-config-file-names` alist
 
 ## Installation
 
@@ -33,7 +33,7 @@ To install the `local-config` using `straight.el`:
              :repo "jamescherti/local-config.el")
   :custom
   (local-config-verbose t)
-  (local-config-file-names '(".emacs-local-config.el"))
+  (local-config-file-names '(".local-config.el"))
   (local-config-allowed-directories '("~/src" "~/projects"))
   (local-config-denied-directories '("~/src/excluded_dir"))
   :config
@@ -50,9 +50,9 @@ Assuming that the `local-config-dir` package has been configured to allow loadin
 (setq local-config-allowed-directories '("~/src" "~/projects"))
 ```
 
-Adding the following code to the `~/src/my_python_project/.emacs-local-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
+Adding the following code to the `~/src/my_python_project/.local-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
-;;; .emacs-local-config.el --- Local Emacs config -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .local-config.el --- Local Emacs config -*- no-byte-compile: t; lexical-binding: t; -*-
 
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))
@@ -63,9 +63,9 @@ Adding the following code to the `~/src/my_python_project/.emacs-local-config.el
                                            (concat ":" python-path)))))))
 ```
 
-It is recommended to always begin your `.emacs-local-config.el` files with the following header:
+It is recommended to always begin your `.local-config.el` files with the following header:
 ```
-;;; .emacs-local-config.el --- Local Emacs config -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; .local-config.el --- Local Emacs config -*- no-byte-compile: t; lexical-binding: t; -*-
 ```
 
 The `local-config-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.

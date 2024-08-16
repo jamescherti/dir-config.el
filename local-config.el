@@ -24,19 +24,19 @@
 
 ;;; Commentary:
 ;; This `local-config' Emacs package facilitates the search and loading of local
-;; configuration files (`.emacs-local-config.el`) within the directory of the
+;; configuration files (`.local-config.el`) within the directory of the
 ;; buffer or its parent directories.
 ;;
 ;; Features:
 ;; - Automatic Configuration Discovery: Searches for and loads
-;;   '.emacs-local-config.el' file from the directory of the current buffer or
+;;   '.local-config.el' file from the directory of the current buffer or
 ;;   its parent directories.
 ;; - Selective Directory Loading: Restricts the loading of configuration files
 ;;   to directories listed in the variable `local-config-allowed-directories'
 ;;   and `local-config-denied-directories', ensuring control over where
 ;;   configuration files are sourced from.
 ;; - The `local-config-mode' mode: Automatically loads the
-;;   '.emacs-local-config.el' file whenever a file is opened, leveraging the
+;;   '.local-config.el' file whenever a file is opened, leveraging the
 ;;   `find-file-hook' to ensure that local configurations are applied.
 
 ;;; Code:
@@ -51,7 +51,7 @@
           :tag "Github"
           "https://github.com/jamescherti/local-config.el"))
 
-(defcustom local-config-file-names '(".emacs-local-config.el")
+(defcustom local-config-file-names '(".local-config.el")
   "List of filenames for local Emacs configuration files.
 
 This list contains filenames that Emacs will search for in the directory
@@ -61,8 +61,8 @@ from the buffer's directory and moving upward through its parent directories.
 Each entry in this list should be a string representing a filename. The
 first existing file found in the hierarchy will be used for configuration.
 
-For example, if the list contains the .emacs-local-config.el and
-.project-config.el files, Emacs will search for the .emacs-local-config.el file
+For example, if the list contains the .local-config.el and
+.project-config.el files, Emacs will search for the .local-config.el file
 first, and if it is not found, it will then search for the .project-config.el
 file'."
   :type '(repeat string)

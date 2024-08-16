@@ -150,7 +150,9 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
   (when file-names
     (let ((found-file nil))
       (dolist (file-name file-names)
-        (let ((file-path (locate-dominating-file start-dir file-name)))
+        (let ((file-path
+               (locate-dominating-file start-dir
+                                       (file-name-nondirectory file-name))))
           (when file-path
             (setq found-file (expand-file-name file-name file-path)))))
       found-file)))
@@ -166,43 +168,48 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
 (defun dir-config-load ()
   "Load the dir config file for CURRENT-FILE from the closest parent directory.
 Only loads settings if the directory is allowed and not denied."
-  (setq-local dir-config--loaded nil)
-  (setq-local dir-config--allowed-p nil)
-  (setq-local dir-config--dir nil)
-  (setq-local dir-config--file nil)
-  (unless (bound-and-true-p dir-config-disable)
-    (let* ((current-dir (dir-config--buffer-cwd))
-           (dir-config-file
-            (dir-config--find-dominating-file dir-config-file-names
+  (if (bound-and-true-p dir-config--loaded)
+      (when dir-config-debug
+        (message "[dir-settings] [DEBUG] Skipping load as already loaded: %s"
+                 dir-config--file))
+    (unless (bound-and-true-p dir-config-disable)
+      (setq-local dir-config--loaded nil)
+      (setq-local dir-config--allowed-p nil)
+      (setq-local dir-config--dir nil)
+      (setq-local dir-config--file nil)
+
+      (let* ((current-dir (dir-config--buffer-cwd))
+             (dir-config-file
+              (dir-config--find-dominating-file dir-config-file-names
                                                 current-dir)))
-      (unless current-dir
-        (error "[dir-config] Failed to read the current working directory"))
-      (if dir-config-file
-          (let* ((dir-config-dir (file-name-directory dir-config-file))
-                 (allowed-dir-p (dir-config--directory-allowed-p
-                                 (list current-dir dir-config-file)
-                                 dir-config-allowed-directories))
-                 (denied-dir-p (dir-config--directory-allowed-p
-                                (list current-dir dir-config-file)
-                                dir-config-denied-directories)))
-            (setq-local dir-config--allowed-p (and allowed-dir-p
+        (unless current-dir
+          (error "[dir-config] Failed to read the current working directory"))
+        (if dir-config-file
+            (let* ((dir-config-dir (file-name-directory dir-config-file))
+                   (allowed-dir-p (dir-config--directory-allowed-p
+                                   (list current-dir dir-config-file)
+                                   dir-config-allowed-directories))
+                   (denied-dir-p (dir-config--directory-allowed-p
+                                  (list current-dir dir-config-file)
+                                  dir-config-denied-directories)))
+              (setq-local dir-config--allowed-p (and allowed-dir-p
                                                      (not denied-dir-p)))
-            (setq-local dir-config--dir dir-config-dir)
-            (setq-local dir-config--file dir-config-file)
-            (if dir-config--allowed-p
-                (progn
-                  (load dir-config-file nil t nil)
-                  (setq-local dir-config--loaded t)
-                  (when dir-config-verbose
-                    (message "[dir-config] Load: %s" dir-config-file)))
-              (when dir-config-debug
-                (message "[dir-config] Not allowed: %s" dir-config-file))))
-        (when dir-config-debug
-          (message (concat "[dir-config] None of the dir config "
-                           "files %s were found in '%s' "
-                           "or one of its parents")
-                   dir-config-file-names
-                   current-dir))))))
+              (setq-local dir-config--dir dir-config-dir)
+              (setq-local dir-config--file dir-config-file)
+              (if dir-config--allowed-p
+                  (progn
+                    (load dir-config-file nil t nil)
+                    (setq-local dir-config--loaded t)
+                    (when dir-config-verbose
+                      (message "[dir-config] Load: %s" dir-config-file)))
+                (when dir-config-verbose
+                  (message "[dir-config] Not allowed: %s" dir-config-file))))
+          (when dir-config-debug
+            (message (concat "[dir-config] [DEBUG] None of the dir config "
+                             "files %s were found in '%s' "
+                             "or one of its parents")
+                     dir-config-file-names
+                     current-dir)))))))
 
 ;;;###autoload
 (define-minor-mode dir-config-mode

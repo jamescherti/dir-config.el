@@ -41,19 +41,16 @@ Assuming that Emacs has been configured to allow loading configuration files fro
 (setq local-emacs-rc-allowed-directories '("~/src" "~/projects"))
 ```
 
-When a `.local-emacs-rc.el` file is placed in the `~/src` directory, Emacs will automatically load this file whenever a file within or below this directory or any of its subdirectories is opened.
-
-For instance, the following content could be added to the `~/src/.local-emacs-rc.el` file to modify the `PYTHONPATH` environment variable for buffers in Python modes:
+For instance, adding the following code to the `~/src/my_python_project/.local-emacs-rc.el` file can modify the `PYTHONPATH` environment variable for Python buffers. Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the project's modules:
 ``` emacs-lisp
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
-  (let ((python-path-env (getenv "PYTHONPATH")))
-    ;; Ensure that processes executed by Flycheck or Flake8
-    ;; can access the PYTHONPATH environment variable.
-    (when (bound-and-true-p local-emacs-rc--dir)
-      (setenv "PYTHONPATH"
-              (concat (local-emacs-rc-get-dir)
-                      (when python-path-env
-                        (concat ":" python-path-env)))))))
+  (let ((python-path (getenv "PYTHONPATH"))
+        (local-emacs-rc-dir (local-emacs-rc-get-dir)))
+    (when local-emacs-rc-dir
+      (when local-emacs-rc-dir
+        (setenv "PYTHONPATH"
+                (concat local-emacs-rc-dir
+                        (when python-path (concat ":" python-path))))))))
 ```
 
 This method allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.

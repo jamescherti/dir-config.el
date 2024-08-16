@@ -67,7 +67,7 @@ jobs:
 
       - name: Run melpazoid
         env:
-          RECIPE: ({{cookiecutter.project_name}} :repo "{{cookiecutter.github_username}}/{{cookiecutter.github_repository_name}}" :branch "${{ github.ref_name }}" :fetcher github :files ("*.el"))
+          RECIPE: (local-config :repo "jamescherti/local-config" :branch "${{ github.ref_name }}" :fetcher github :files ("*.el"))
           EXIST_OK: false
         run: echo $GITHUB_REF && make -C ~/melpazoid
 

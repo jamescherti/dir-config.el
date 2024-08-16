@@ -196,7 +196,8 @@ Only loads settings if the directory is allowed and not denied."
 ;;;###autoload
 (define-minor-mode local-config-mode
   "Toggle `local-config-mode'.
-When enabled, `local-config-mode' loads directory-specific settings automatically."
+When enabled, `local-config-mode' loads directory-specific settings
+automatically."
   :global t
   :lighter " LEmacsRC"
   :group 'local-config

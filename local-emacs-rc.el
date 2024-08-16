@@ -45,9 +45,11 @@
           :tag "Github"
           "https://github.com/jamescherti/local-emacs-rc.el"))
 
-(defcustom local-emacs-rc-file-name ".local-emacs-rc.el"
-  "Name of the local Emacs RC file."
-  :type 'string
+(defcustom local-emacs-rc-file-names '(".local-emacs-rc.el")
+  "List of local Emacs RC file names to search for.
+Each entry should be a string representing a filename. The configuration will
+search for these files in the directory hierarchy of the current buffer."
+  :type '(repeat string)
   :group 'local-emacs-rc)
 
 (defcustom local-emacs-rc-verbose nil
@@ -111,49 +113,62 @@ Return `nil` if the local Emacs RC file has not been loaded."
 
           (t default-directory))))
 
+(defun local-emacs-rc--find-dominating-file (file-names start-dir)
+  "Locate the first available dominating file from FILE-NAMES.
+
+FILE-NAMES is a list of filenames to search for. This function searches upward
+from START-DIR to find the first directory that contains one of the files in
+FILE-NAMES. Returns the path to the found file or nil if none is found."
+  (when file-names
+    (let ((found-file nil))
+      (dolist (file-name file-names)
+        (let ((file-path (locate-dominating-file start-dir file-name)))
+          (when file-path
+            (setq found-file (expand-file-name file-name file-path)))))
+      found-file)))
+
 (defun local-emacs-rc-edit ()
   "Open the settings file that was loaded, if available."
   (interactive)
   (let ((local-emacs-rc-file (local-emacs-rc-get-file)))
     (if local-emacs-rc-file
         (find-file local-emacs-rc-file)
-      (message "The `%s' file was not found." local-emacs-rc-file-name))))
+      (message "The local Emacs RC file was not found."))))
 
 (defun local-emacs-rc-load ()
   "Load local Emacs RC file for CURRENT-FILE from the closest parent directory.
 Only loads settings if the directory is allowed and not denied."
   (unless (bound-and-true-p local-emacs-rc-disable)
-    (kill-local-variable 'local-emacs-rc--dir)
-    (kill-local-variable 'local-emacs-rc--file)
-    (let* ((current-file (local-emacs-rc--buffer-cwd))
-           (dir (locate-dominating-file current-file local-emacs-rc-file-name)))
-      (unless current-file
+    (let* ((current-dir (local-emacs-rc--buffer-cwd))
+           (local-emacs-rc-file
+            (local-emacs-rc--find-dominating-file local-emacs-rc-file-names
+                                                  current-dir)))
+      (unless current-dir
         (error "[local-emacs-rc] Failed to read the current working directory"))
-      (if dir
-          (let* ((settings-dir (expand-file-name dir))
-                 (settings-file (expand-file-name local-emacs-rc-file-name dir))
+      (if local-emacs-rc-file
+          (let* ((local-emacs-rc-dir (file-name-directory local-emacs-rc-file))
                  (allowed-dir-p (local-emacs-rc--directory-allowed-p
-                                 (list current-file settings-file)
+                                 (list current-dir local-emacs-rc-file)
                                  local-emacs-rc-allowed-directories))
                  (denied-dir-p (local-emacs-rc--directory-allowed-p
-                                (list current-file settings-file)
+                                (list current-dir local-emacs-rc-file)
                                 local-emacs-rc-denied-directories)))
             (setq-local local-emacs-rc--loaded nil)
             (setq-local local-emacs-rc--allowed-p (and allowed-dir-p
                                                        (not denied-dir-p)))
-            (setq-local local-emacs-rc--dir settings-dir)
-            (setq-local local-emacs-rc--file settings-file)
+            (setq-local local-emacs-rc--dir local-emacs-rc-dir)
+            (setq-local local-emacs-rc--file local-emacs-rc-file)
             (if local-emacs-rc--allowed-p
                 (progn
-                  (load settings-file nil t nil)
+                  (load local-emacs-rc-file nil t nil)
                   (setq-local local-emacs-rc--loaded t)
                   (when local-emacs-rc-verbose
-                    (message "[local-emacs-rc] Load: %s" settings-file)))
+                    (message "[local-emacs-rc] Load: %s" local-emacs-rc-file)))
               (when local-emacs-rc-verbose
-                (message "[local-emacs-rc] Ignore: %s" settings-file))))
+                (message "[local-emacs-rc] Ignore: %s" local-emacs-rc-file))))
         (message (concat "[local-emacs-rc] The file was not found in the "
                          "current directories or one of its parents: %s")
-                 local-emacs-rc-file-name)))))
+                 current-dir)))))
 
 ;;;###autoload
 (define-minor-mode local-emacs-rc-mode

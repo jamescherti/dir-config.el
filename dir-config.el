@@ -213,7 +213,7 @@ the closest parent directory of the buffer."
 When enabled, `global-dir-config-mode' loads directory-specific settings
 automatically."
   :global t
-  :lighter " LocCfg"
+  :lighter " DirCfg"
   :group 'dir-config
   (if global-dir-config-mode
       (add-hook 'find-file-hook #'dir-config-load)

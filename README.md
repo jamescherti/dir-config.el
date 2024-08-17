@@ -42,7 +42,7 @@ Note:
 - The dir-config file names can be customized by modifying the dir-config-file-names variable. For instance: ```(setq dir-config-file-names '(".project-config.el" ".dir-config.el"))``` will make `dir-config` search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
 - You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `global-dir-config-mode` is active.
 
-## Usage
+## Example usage
 
 Assuming that the `dir-config` package has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `dir-config-allowed-directories` variable:
 ``` emacs-lisp

@@ -60,18 +60,18 @@ jobs:
 
       - name: Install
         run: |
-          python -m venv ~/venv
-          source ~/venv/bin/activate
-          pip install --upgrade pip
-          pip install git+https://github.com/riscy/melpazoid.git
+          python -m pip install --upgrade pip
+          # sudo apt-get install emacs && emacs --version
+          git clone https://github.com/riscy/melpazoid.git ~/melpazoid
+          # pip install https://github.com/riscy/melpazoid.git
 
       - name: Run melpazoid
         env:
           RECIPE: (dir-config :repo "jamescherti/dir-config.el" :branch "${{ github.ref_name }}" :fetcher github :files ("dir-config.el"))
           EXIST_OK: false
-        run: 'source ~/venv/bin/activate && echo $GITHUB_REF && make -C ~/melpazoid'
+        run: 'echo $GITHUB_REF && echo "Emacs version $(emacs --version)" && make -C ~/melpazoid'
 
       - name: Run tests
-        run: source ~/venv/bin/activate && make test
+        run: make test
         env:
           CASK_PATH: $HOME/.cask/bin

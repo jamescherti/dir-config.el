@@ -76,14 +76,17 @@ The `dir-config-dir` package allows for automatic application of specific config
 
 Here is the difference between using `.dir-locals.el` (built-in) and the `.dir-config.el` (this package) files:
 
-- `dir-locals.el` (built-in):
+- `.dir-locals.el` (built-in):
   - Primarily used for setting per-directory local variables.
+  - The syntax of `.dir-locals.el` relies heavily on nested lists and alist structures. This can quickly become difficult to read and maintain, especially for more complex configurations.
+  - The configuration in `dir-locals.el` is inherently static unless dynamic behavior is explicitly added using eval.
 
 - `.dir-config.el` (The `dir-config` package):
   - Provides more extensive capabilities by loading and evaluating Emacs Lisp code for tasks such as environment configuration, keybindings, and other complex setup processes.
   - Better suited for more complex, project-specific setups where additional customization and dynamic behavior are required.
+  - `.dir-config.el` files are easier to maintain, as they use standard Emacs Lisp code instead of nested alists.
 
-If your needs are primarily about setting Emacs variables and simple customizations, `.dir-locals.el` is sufficient and integrates well with Emacs' built-in features. If you require more advanced, project-specific configurations, including code execution and environment management, the `dir-config` package and `.dir-config.el` files offer greater flexibility and control.
+If the user’s needs primarily involve configuring Emacs variables, the built-in `.dir-locals.el` is sufficient. For more advanced, project-specific configurations that include code execution and comprehensive environment management, `.dir-config.el` files offer more flexibility and control.
 
 ## License
 

@@ -55,8 +55,8 @@ Adding the following code to the `~/src/my_python_project/.dir-config.el` file c
 (when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
   (let ((python-path (getenv "PYTHONPATH"))
         (dir (dir-config-get-dir)))
-    ;; Ensure that processes executed by Flycheck or Flymake can access the
-    ;; Python module by modifying the PYTHONPATH environment variable.
+    ;; Update the PYTHONPATH environment variable to ensure that Flycheck,
+    ;; Flymake, and other subprocesses can locate the Python modules.
     (when (and dir (or (file-exists-p (expand-file-name "setup.py" dir))
                        (file-exists-p (expand-file-name "pyproject.toml" dir))))
       (setq-local process-environment (copy-sequence process-environment))

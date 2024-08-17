@@ -1,4 +1,4 @@
-;;; dir-config.el --- Automatically find and load the .dir-config.el Elisp file -*- lexical-binding: t; -*-
+;;; dir-config.el --- Automatically find and load .dir-config.el -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2003-2024  James Cherti | https://www.jamescherti.com/contact/
 

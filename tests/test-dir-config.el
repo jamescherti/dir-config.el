@@ -45,6 +45,8 @@
 (defun test-dir-config ()
   "Test dir-config."
   (interactive)
+  (setq dir-config-verbose t)
+  (setq dir-config-debug t)
   (let* ((base-dir (expand-file-name "~/test-dir-config"))
          (dir-config-file (expand-file-name ".dir-config.el" base-dir))
 

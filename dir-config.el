@@ -254,7 +254,7 @@ from the closest parent directory of the buffer."
                     (setq-local dir-config--allowed-p allowed-p)
                     (setq-local dir-config--file dir-config-file))
                   (when dir-config-verbose
-                    (dir-config--message "%s: Load %s"
+                    (dir-config--message "%s: Load: %s"
                                          (buffer-name)
                                          dir-config-file))))))))))
   dir-config--loaded)

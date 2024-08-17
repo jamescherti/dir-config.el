@@ -2,7 +2,7 @@
 ![Build Status](https://github.com/jamescherti/dir-config.el/actions/workflows/ci.yml/badge.svg)
 ![](https://raw.githubusercontent.com/jamescherti/dir-config.el/main/.images/made-for-gnu-emacs.svg)
 
-The `dir-config` Emacs package automatically loads and evaluates Elisp code from a `.dir-config.el` file found in the buffer's current directory or its closest parent directory. This enables Emacs to adjust settings or execute functions specific to the directory structure of each buffer.
+The `dir-config` Emacs package automatically loads and evaluates Elisp code from a `.dir-config.el` file found in the buffer's current directory or its closest parent directory. This facilitates adjusting settings or executing functions specific to the directory structure of each buffer.
 
 For instance, you can use the `dir-config` package to:
 - **Configure project-specific settings**: Automatically set up environment variables, keybindings, or modes unique to each project.

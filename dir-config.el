@@ -140,22 +140,6 @@ Returns t if all files are within an allowed directory, nil otherwise."
       (message "[dir-config] Loaded: %s" dir-config--file)
     (message "[dir-config] Not loaded")))
 
-(defun dir-config-edit-dir ()
-  "Open the directory from which the dir config was loaded, if available."
-  (interactive)
-  (let ((config-dir (dir-config-get-dir)))
-    (if config-dir
-        (find-file config-dir)
-      (message "[dir-config] The dir config directory was not found."))))
-
-(defun dir-config-edit-file ()
-  "Open the dir config file that was loaded, if available."
-  (interactive)
-  (let ((dir-config-file (dir-config-get-file)))
-    (if dir-config-file
-        (find-file dir-config-file)
-      (message "[dir-config] The dir config file was not found."))))
-
 (defun dir-config--buffer-cwd ()
   "Return the directory of the current buffer."
   (let ((buffer-file-name (buffer-file-name (buffer-base-buffer))))

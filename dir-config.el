@@ -129,6 +129,17 @@ Return `nil` if the dir config file has not been loaded."
       (message "[dir-config] Loaded: %s" dir-config--file)
     (message "[dir-config] Not loaded")))
 
+(defun dir-config-edit-dir ()
+  "Open the directory from which the dir config was loaded, if available.
+If the directory is not available, display a message indicating the failure."
+  (interactive)
+  (let ((config-dir (dir-config-get-dir)))
+    (if config-dir
+        (find-file config-dir)
+      (message
+       "Could not find the directory associated with '%s' configuration file."
+       dir-config-filename))))
+
 (defun dir-config-edit-file ()
   "Open the settings file that was loaded, if available."
   (interactive)

@@ -1,4 +1,4 @@
-# dir-config.el - Automatically find and load the dir config Elisp code
+# dir-config.el - Automatically find and load .dir-config.el files
 ![Build Status](https://github.com/jamescherti/dir-config.el/actions/workflows/ci.yml/badge.svg)
 ![](https://raw.githubusercontent.com/jamescherti/dir-config.el/main/.images/made-for-gnu-emacs.svg)
 

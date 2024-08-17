@@ -154,9 +154,7 @@ If the directory is not available, display a message indicating the failure."
   (let ((config-dir (dir-config-get-dir)))
     (if config-dir
         (find-file config-dir)
-      (message
-       "Could not find the directory associated with '%s' configuration file."
-       dir-config-filename))))
+      (message "[dir-config] The dir config directory was not found."))))
 
 (defun dir-config-edit-file ()
   "Open the settings file that was loaded, if available."

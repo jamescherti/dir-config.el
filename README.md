@@ -52,16 +52,14 @@ Assuming that the `dir-config-dir` package has been configured to allow loading 
 Adding the following code to the `~/src/my_python_project/.dir-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
 ;;; .dir-config.el --- Directory config -*- no-byte-compile: t; lexical-binding: t; -*-
-(let ((python_path_env (getenv "PYTHONPATH"))
+(let ((python-path (getenv "PYTHONPATH"))
       (dir (dir-config-get-dir)))
-  ;; This ensures that the processes that are executed by Flycheck or
-  ;; Flake8, can access the environment variables PYTHONPATH.
-  (when dir
-    (setq-local process-environment
-                (cons (concat "PYTHONPATH="
-                              (dir-config-get-dir)
-                              (if python_path_env (concat ":" python_path_env) ""))
-                      process-environment))))
+  ;; Ensure that processes executed by Flycheck or Flake8 can access the
+  ;; PYTHONPATH environment variable.
+  (when (and dir (or (file-exists-p (expand-file-name "setup.py"))
+                     (file-exists-p (expand-file-name "pyproject.toml"))))
+    (setq-local process-environment (copy-sequence process-environment))
+    (setenv "PYTHONPATH" (concat dir (when python-path (concat ":" python-path))))))
 ```
 
 It is recommended to always begin your `.dir-config.el` files with the following header:

@@ -113,7 +113,7 @@ otherwise."
   "Return the directory of the currently loaded dir config file.
 Return `nil` if the dir config file has not been loaded."
   (when (bound-and-true-p dir-config--file)
-    (file-name-nondirectory dir-config--file)))
+    (file-name-directory dir-config--file)))
 
 (defun dir-config-get-file ()
   "Return the file of the currently loaded dir config file.
@@ -173,7 +173,7 @@ Only loads settings if the directory is allowed."
       (when dir-config-debug
         (message "[dir-settings] [DEBUG] Skipping load as already loaded: %s"
                  dir-config--file))
-    (unless (bound-and-true-p dir-config-disable)
+    (unless (bound-and-true-p dir-config-disabled)
       (setq-local dir-config--loaded nil)
       (setq-local dir-config--allowed-p nil)
       (setq-local dir-config--file nil)

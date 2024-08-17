@@ -45,6 +45,10 @@
 (defun test-dir-config ()
   "Test dir-config."
   (interactive)
+  (message "Emacs Version: %s (Major: %d, Minor: %d)"
+           emacs-version
+           emacs-major-version
+           emacs-minor-version)
   (setq dir-config-verbose t)
   (setq dir-config-debug t)
   (let* ((base-dir (expand-file-name "~/test-dir-config"))

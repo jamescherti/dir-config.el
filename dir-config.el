@@ -110,6 +110,16 @@ directory configuration handling."
 (defvar dir-config--allowed-p nil)
 (defvar dir-config--file nil)
 
+(defun dir-config--message (&rest args)
+  "Display a message with '[dir-config]' prepended.
+The message is formatted with the provided arguments ARGS."
+  (apply #'message (concat "[dir-config] " (car args)) (cdr args)))
+
+(defun dir-config--warning (&rest args)
+  "Display a warning message with '[dir-config] Warning: ' prepended.
+The message is formatted with the provided arguments ARGS."
+  (apply #'message (concat "[dir-config] Warning: " (car args)) (cdr args)))
+
 (defun dir-config--directory-allowed-p (file-list allowed-directories)
   "Check if all files in FILE-LIST are within one of the ALLOWED-DIRECTORIES.
 Returns t if all files are within an allowed directory, nil otherwise."
@@ -137,21 +147,26 @@ Returns t if all files are within an allowed directory, nil otherwise."
   (interactive)
   (if (and (bound-and-true-p dir-config--file)
            (bound-and-true-p dir-config--loaded))
-      (message "[dir-config] Loaded: %s" dir-config--file)
-    (message "[dir-config] Not loaded")))
+      (dir-config--message "Loaded: %s" dir-config--file)
+    (dir-config--message "Not loaded")))
 
 (defun dir-config--buffer-cwd ()
-  "Return the directory of the current buffer."
-  (let ((buffer-file-name (buffer-file-name (buffer-base-buffer))))
-    (cond ((derived-mode-p 'dired-mode)
-           (dired-current-directory))
+  "Determine the directory associated with the current buffer.
 
-          (buffer-file-name
-           (if buffer-file-name
-               (file-name-directory (buffer-file-name (buffer-base-buffer)))
-             (expand-file-name default-directory)))
+Returns:
+- The directory path if the buffer is in `dired-mode', or
+- The directory of the file if the buffer is visiting a file, or
+- nil if neither condition is met.
 
-          (t default-directory))))
+This function is useful for configuring `dired-config' based on the current
+buffer's context."
+  (let ((file-name (buffer-file-name (buffer-base-buffer))))
+    (cond
+     ((derived-mode-p 'dired-mode)
+      (dired-current-directory))
+
+     (file-name
+      (file-name-directory file-name)))))
 
 (defun dir-config--find-dominating-file (file-names start-dir)
   "Locate the first available file from FILE-NAMES in the directory hierarchy.
@@ -172,40 +187,66 @@ or nil if none is found."
 The config file is loaded only if the directory is allowed and is sourced from
 the closest parent directory of the buffer."
   (if (bound-and-true-p dir-config--loaded)
+      ;; Skip it
       (when dir-config-debug
-        (message "[dir-settings] [DEBUG] Skipping load as already loaded: %s"
-                 dir-config--file))
-    (unless (bound-and-true-p dir-config-disabled)
-      (setq-local dir-config--loaded nil)
-      (setq-local dir-config--allowed-p nil)
-      (setq-local dir-config--file nil)
+        (dir-config--message "[DEBUG] Skipping load as already loaded: %s"
+                             dir-config--file))
 
-      (let* ((current-dir (dir-config--buffer-cwd))
-             (dir-config-file
-              (dir-config--find-dominating-file dir-config-file-names
-                                                current-dir)))
-        (unless current-dir
-          (error "[dir-config] Failed to read the current working directory"))
-        (if dir-config-file
-            (let* ((allowed-dir-p (dir-config--directory-allowed-p
-                                   (list current-dir dir-config-file)
-                                   dir-config-allowed-directories)))
-              (setq-local dir-config--allowed-p allowed-dir-p)
-              (setq-local dir-config--file dir-config-file)
-              (if dir-config--allowed-p
-                  (progn
-                    (load dir-config-file nil t nil)
-                    (setq-local dir-config--loaded t)
-                    (when dir-config-verbose
-                      (message "[dir-config] Load: %s" dir-config-file)))
-                (when dir-config-verbose
-                  (message "[dir-config] Not allowed: %s" dir-config-file))))
+    (let ((current-dir (dir-config--buffer-cwd)))
+      (if (not current-dir)
+          ;; Buffer not supported
           (when dir-config-debug
-            (message (concat "[dir-config] [DEBUG] None of the dir config "
-                             "files %s were found in '%s' "
-                             "or one of its parents")
-                     dir-config-file-names
-                     current-dir)))))))
+            (dir-config--message (concat "[DEBUG] Ignored because the "
+                                         "buffer type of '%s' is not supported")
+                                 (buffer-name)))
+
+        ;; Load it
+        (setq-local dir-config--loaded nil)
+        (setq-local dir-config--allowed-p nil)
+        (setq-local dir-config--file nil)
+
+        (let* ((dir-config-file
+                (dir-config--find-dominating-file dir-config-file-names
+                                                  current-dir)))
+          (unless current-dir
+            (error "Failed to read the current working directory"))
+          (if dir-config-file
+              (let* ((allowed-dir-p (dir-config--directory-allowed-p
+                                     (list current-dir dir-config-file)
+                                     dir-config-allowed-directories)))
+                (setq-local dir-config--allowed-p allowed-dir-p)
+                (setq-local dir-config--file dir-config-file)
+                (if dir-config--allowed-p
+                    (let ((no-error nil)
+                          (no-suffix t)
+                          (successfully-loaded nil))
+                      (if dir-config-debug
+                          (progn
+                            ;; Do not handle errors when debug is activated
+                            (load dir-config-file no-error no-suffix)
+                            (setq successfully-loaded t))
+                        ;; Handle errors
+                        (condition-case err
+                            (progn
+                              (load dir-config-file no-error no-suffix)
+                              (setq successfully-loaded t))
+                          (error
+                           (dir-config--message "Error loading '%s': %s"
+                                                dir-config-file
+                                                (error-message-string err)))))
+                      (when successfully-loaded
+                        (setq-local dir-config--loaded t)
+                        (when dir-config-verbose
+                          (dir-config--message "Load: %s" dir-config-file))))
+                  (when dir-config-verbose
+                    (dir-config--message "Not allowed: %s" dir-config-file))))
+            (when dir-config-debug
+              (dir-config--message (concat "[DEBUG] None of the dir config "
+                                           "files %s were found for the '%s' "
+                                           "buffer (major-mode: %s)")
+                                   dir-config-file-names
+                                   (buffer-name)
+                                   major-mode))))))))
 
 ;;;###autoload
 (define-minor-mode global-dir-config-mode

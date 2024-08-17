@@ -69,19 +69,15 @@
           "https://github.com/jamescherti/dir-config.el"))
 
 (defcustom dir-config-file-names '(".dir-config.el")
-  "List of filenames for the directory configuration files.
+  "List of filenames for directory configuration files.
 
-This list contains filenames that Emacs will search for in the directory
-hierarchy of the current buffer. Emacs will look for these files starting
-from the buffer's directory and moving upward through its parent directories.
+Emacs will search for these files in the directory hierarchy of the current
+buffer, starting from the buffer's directory and moving upward through parent
+directories. The first existing file found will be used for configuration.
 
-Each entry in this list should be a string representing a filename. The
-first existing file found in the hierarchy will be used for configuration.
-
-For example, if the list contains the .dir-config.el and
-.project-config.el files, Emacs will search for the .dir-config.el file
-first, and if it is not found, it will then search for the .project-config.el
-file'."
+For example, if this list contains '.dir-config.el' and '.project-config.el',
+Emacs will search for '.dir-config.el' first. If not found, it will then search
+for '.project-config.el'."
   :type '(repeat string)
   :group 'dir-config)
 
@@ -115,9 +111,8 @@ directory configuration handling."
 (defvar dir-config--file nil)
 
 (defun dir-config--directory-allowed-p (file-list allowed-directories)
-  "Check if all files in FILE-LIST are in one of the ALLOWED-DIRECTORIES.
-Returns t if all files are within one of the allowed directories, nil
-otherwise."
+  "Check if all files in FILE-LIST are within one of the ALLOWED-DIRECTORIES.
+Returns t if all files are within an allowed directory, nil otherwise."
   (seq-some
    (lambda (allowed-dir)
      (let ((expanded-allowed-dir (expand-file-name allowed-dir)))
@@ -128,19 +123,17 @@ otherwise."
    allowed-directories))
 
 (defun dir-config-get-dir ()
-  "Return the directory of the currently loaded dir config file.
-Return `nil` if the dir config file has not been loaded."
+  "Return the directory of the currently loaded dir config, or nil if none."
   (when (bound-and-true-p dir-config--file)
     (file-name-directory dir-config--file)))
 
 (defun dir-config-get-file ()
-  "Return the file of the currently loaded dir config file.
-Return `nil` if the dir config file has not been loaded."
+  "Return the path of the currently loaded dir config file, or nil if none."
   (when (bound-and-true-p dir-config--file)
     dir-config--file))
 
 (defun dir-config-status ()
-  "Check if the dir config file have been loaded for the current buffer."
+  "Report whether the dir config file has been loaded for the current buffer."
   (interactive)
   (if (and (bound-and-true-p dir-config--file)
            (bound-and-true-p dir-config--loaded))
@@ -148,8 +141,7 @@ Return `nil` if the dir config file has not been loaded."
     (message "[dir-config] Not loaded")))
 
 (defun dir-config-edit-dir ()
-  "Open the directory from which the dir config was loaded, if available.
-If the directory is not available, display a message indicating the failure."
+  "Open the directory from which the dir config was loaded, if available."
   (interactive)
   (let ((config-dir (dir-config-get-dir)))
     (if config-dir
@@ -157,7 +149,7 @@ If the directory is not available, display a message indicating the failure."
       (message "[dir-config] The dir config directory was not found."))))
 
 (defun dir-config-edit-file ()
-  "Open the settings file that was loaded, if available."
+  "Open the dir config file that was loaded, if available."
   (interactive)
   (let ((dir-config-file (dir-config-get-file)))
     (if dir-config-file
@@ -178,11 +170,9 @@ If the directory is not available, display a message indicating the failure."
           (t default-directory))))
 
 (defun dir-config--find-dominating-file (file-names start-dir)
-  "Locate the first available dominating file from FILE-NAMES.
-
-FILE-NAMES is a list of filenames to search for. This function searches upward
-from START-DIR to find the first directory that contains one of the files in
-FILE-NAMES. Returns the path to the found file or nil if none is found."
+  "Locate the first available file from FILE-NAMES in the directory hierarchy.
+Searches upward from START-DIR and returns the path to the first found file,
+or nil if none is found."
   (when file-names
     (let ((found-file nil))
       (dolist (file-name file-names)
@@ -194,8 +184,9 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
       found-file)))
 
 (defun dir-config-load ()
-  "Load the dir config file for CURRENT-FILE from the closest parent directory.
-Only loads settings if the directory is allowed."
+  "Load the directory config file for the current buffer.
+The config file is loaded only if the directory is allowed and is sourced from
+the closest parent directory of the buffer."
   (if (bound-and-true-p dir-config--loaded)
       (when dir-config-debug
         (message "[dir-settings] [DEBUG] Skipping load as already loaded: %s"

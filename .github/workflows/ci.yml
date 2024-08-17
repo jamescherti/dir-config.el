@@ -68,6 +68,7 @@ jobs:
         env:
           RECIPE: (dir-config :repo "jamescherti/dir-config.el" :branch "${{ github.ref_name }}" :fetcher github :files ("dir-config.el"))
           EXIST_OK: false
+          CASK_PATH: $HOME/.cask/bin
         run: 'echo -e "Ref: $GITHUB_REF\n$(emacs --version)" && make -C ~/melpazoid'
 
       - name: Run tests

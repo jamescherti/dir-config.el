@@ -79,7 +79,7 @@ Here is the difference between using `.dir-locals.el` (built-in) and the `.dir-c
 - `.dir-locals.el` (built-in):
   - Primarily used for setting per-directory local variables.
   - The syntax of `.dir-locals.el` relies heavily on nested lists and alist structures. This can quickly become difficult to read and maintain, especially for more complex configurations.
-  - The configuration in `dir-locals.el` is inherently static unless dynamic behavior is explicitly added using eval.
+  - The configuration in `dir-locals.el` is inherently static unless dynamic behavior is explicitly added using `eval`.
 
 - `.dir-config.el` (The `dir-config` package):
   - Provides more extensive capabilities by loading and evaluating Emacs Lisp code for tasks such as environment configuration, keybindings, and other complex setup processes.

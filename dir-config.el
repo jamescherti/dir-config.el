@@ -1,4 +1,4 @@
-;;; dir-config.el --- Automatically find and load .dir-config.el files -*- lexical-binding: t; -*-
+;;; dir-config.el --- Automatically find and load the .dir-config.el Elisp file -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2003-2024  James Cherti | https://www.jamescherti.com/contact/
 
@@ -231,6 +231,10 @@ from the closest parent directory of the buffer."
                     (dir-config--message "%s: Ignored (not allowed): %s"
                                          (buffer-name)
                                          dir-config-file))
+                ;; Set variables
+                (setq-local dir-config--allowed-p allowed-p)
+                (setq-local dir-config--file dir-config-file)
+
                 ;; Load
                 (if dir-config-debug
                     (progn
@@ -250,9 +254,7 @@ from the closest parent directory of the buffer."
                 ;; Show message
                 (when success
                   (with-current-buffer buffer
-                    (setq-local dir-config--loaded t)
-                    (setq-local dir-config--allowed-p allowed-p)
-                    (setq-local dir-config--file dir-config-file))
+                    (setq-local dir-config--loaded t))
                   (when dir-config-verbose
                     (dir-config--message "%s: Load: %s"
                                          (buffer-name)

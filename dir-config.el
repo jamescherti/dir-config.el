@@ -71,21 +71,22 @@
 (defcustom dir-config-file-names '(".dir-config.el")
   "List of filenames for directory configuration files.
 
-The dir-config package will search for these files in the directory hierarchy
-of the current buffer, starting from the buffer's directory and moving upward
-through parent directories. The first existing file found will be used for
-configuration.
+The `global-dir-config-mode' mode will search for these files in the directory
+hierarchy of the current buffer, starting from the buffer's directory and moving
+upward through parent directories. The first existing file found will be used
+for configuration.
 
-For example, if this list contains .dir-config.el and .project-config.el, Emacs
-will search for the .dir-config.el file first. If not found, it will then search
-for the .project-config.el fil."
+For example, if this list contains .dir-config.el and .project-config.el,
+`global-dir-config-mode' will search for the .dir-config.el file first. If not
+found, it will then search for the .project-config.el fil."
   :type '(repeat string)
   :group 'dir-config)
 
 (defcustom dir-config-verbose nil
-  "If non-nil, enable verbose logging for `dir-config' operations.
-When enabled, detailed logs will be produced when a dir-config file is loaded or
-ignored. This is useful for tracking the flow of dir-config loading."
+  "If non-nil, enable verbose logging for dir-config operations.
+When enabled, detailed logs will be produced when a dir-config file (e.g.,
+'.dir-config.el') is loaded or ignored. This is useful for tracking the flow of
+dir-config loading."
   :type 'boolean
   :group 'dir-config)
 
@@ -102,7 +103,9 @@ This option is useful for diagnosing and troubleshooting complex issues."
   :group 'dir-config)
 
 (defcustom dir-config-allowed-directories '()
-  "List of directory names where dir-config files are allowed."
+  "List of directory names where dir-config files are allowed.
+Both the dir-config file (e.g., '.dir-config.el') and the buffer path must be
+under these directories, not just the dir-config file."
   :type '(repeat directory)
   :group 'dir-config)
 
@@ -134,7 +137,7 @@ Returns t if all files are within an allowed directory, nil otherwise."
    allowed-directories))
 
 (defun dir-config-get-dir ()
-  "Return the directory of the currently loaded dir-config, or nil if none."
+  "Return the directory of the loaded dir-config file, or nil if none."
   (when (bound-and-true-p dir-config--file)
     (file-name-directory dir-config--file)))
 
@@ -153,18 +156,16 @@ Returns t if all files are within an allowed directory, nil otherwise."
 
 (defun dir-config--buffer-cwd ()
   "Return the directory associated with the current buffer.
-
 Returns:
 - The directory path if the buffer is in `dired-mode', or
 - The directory of the file if the buffer is visiting a file, or
 - nil if neither condition is met."
   (let ((file-name (buffer-file-name (buffer-base-buffer))))
-    (cond
-     ((derived-mode-p 'dired-mode)
-      (dired-current-directory))
+    (cond ((derived-mode-p 'dired-mode)
+           (dired-current-directory))
 
-     (file-name
-      (file-name-directory file-name)))))
+          (file-name
+           (file-name-directory file-name)))))
 
 (defun dir-config--find-dominating-file (file-names start-dir)
   "Locate the first available file from FILE-NAMES in the directory hierarchy.
@@ -212,7 +213,7 @@ from the closest parent directory of the buffer."
           (if (not dir-config-file)
               (when dir-config-debug
                 (dir-config--message (concat
-                                      "[DEBUG] %s: one of the dir-config "
+                                      "[DEBUG] %s: None of the dir-config "
                                       "files %s were found for the '%s' "
                                       "buffer (major-mode: %s)")
                                      (buffer-name)

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2024 James Cherti | https://www.jamescherti.com/contact/
+# Copyright (C) 2023-2024 James Cherti | https://www.jamescherti.com/contact/
 # URL: https://github.com/jamescherti/dir-config.el
 #
 # This file is free software; you can redistribute it and/or modify

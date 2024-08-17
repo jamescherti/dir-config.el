@@ -39,12 +39,12 @@ To install the `dir-config` using `straight.el`:
 ```
 
 Note:
-- The dir-config file names can be customized by modifying: ```(setq dir-config-file-names '(".project-config.el" ".dir-config.el"))```. With this configuration, Emacs will search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
+- The dir-config file names can be customized by modifying the dir-config-file-names variable. For instance: ```(setq dir-config-file-names '(".project-config.el" ".dir-config.el"))``` will make `dir-config` search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
 - You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `global-dir-config-mode` is active.
 
 ## Usage
 
-Assuming that the `dir-config-dir` package has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `dir-config-allowed-directories` variable:
+Assuming that the `dir-config` package has been configured to allow loading configuration files from specific directories, such as `~/src`, by setting the `dir-config-allowed-directories` variable:
 ``` emacs-lisp
 (setq dir-config-allowed-directories '("~/src" "~/projects"))
 ```
@@ -68,7 +68,7 @@ It is recommended to always begin your `.dir-config.el` files with the following
 ;;; .dir-config.el --- Directory config -*- no-byte-compile: t; lexical-binding: t; -*-
 ```
 
-The `dir-config-dir` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
+The `dir-config` package allows for automatic application of specific configurations based on the directory of the files being accessed, enhancing the flexibility and customization of the Emacs environment.
 
 ## Frequently Asked Questions
 
@@ -78,13 +78,13 @@ Here is the difference between using `.dir-locals.el` (built-in) and the `.dir-c
 
 - `.dir-locals.el` (built-in):
   - Primarily used for setting per-directory local variables.
-  - The syntax of `.dir-locals.el` relies heavily on nested lists and alist structures. This can quickly become difficult to read and maintain, especially for more complex configurations.
+  - The syntax of `.dir-locals.el` relies heavily on nested lists and alist structures. This can quickly become **difficult to read and maintain**, especially for more complex configurations.
   - The configuration in `dir-locals.el` is inherently static unless dynamic behavior is explicitly added using `eval`.
 
 - `.dir-config.el` (The `dir-config` package):
   - Provides more extensive capabilities by loading and evaluating Emacs Lisp code for tasks such as environment configuration, keybindings, and other complex setup processes.
   - Better suited for more complex, project-specific setups where additional customization and dynamic behavior are required.
-  - `.dir-config.el` files are easier to maintain, as they use standard Emacs Lisp code instead of nested alists.
+  - `.dir-config.el` files are easier to maintain, as they use standard Elisp code instead of nested alists.
 
 If the user’s needs primarily involve configuring Emacs variables, the built-in `.dir-locals.el` is sufficient. For more advanced, project-specific configurations that include code execution and comprehensive environment management, `.dir-config.el` files offer more flexibility and control.
 

@@ -1,4 +1,4 @@
-;;; dir-config.el --- Automatically load directory configuration Elisp file -*- lexical-binding: t; -*-
+;;; dir-config.el --- Automatically load dir config Elisp file -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2003-2024  James Cherti | https://www.jamescherti.com/contact/
 
@@ -32,10 +32,9 @@
 ;;   '.dir-config.el' file from the directory of the current buffer or
 ;;   its parent directories.
 ;; - Selective Directory Loading: Restricts the loading of configuration files
-;;   to directories listed in the variable `dir-config-allowed-directories'
-;;   and `dir-config-denied-directories', ensuring control over where
-;;   configuration files are sourced from.
-;; - The `dir-config-mode' mode: Automatically loads the '.dir-config.el' file
+;;   to directories listed in the variable `dir-config-allowed-directories',
+;;   ensuring control over where configuration files are sourced from.
+;; - The `global-dir-config-mode' mode: Automatically loads the '.dir-config.el' file
 ;;   whenever a file is opened, leveraging the `find-file-hook' to ensure that
 ;;   the '.dir-config.el' configuration are applied to the buffer.
 
@@ -69,12 +68,21 @@ file'."
   :group 'dir-config)
 
 (defcustom dir-config-verbose nil
-  "Enable verbose mode to log when a dir config file is loaded or ignored."
+  "If non-nil, enable verbose logging for `dir-config' operations.
+When enabled, detailed logs will be produced when a directory config file is
+loaded or ignored. This is useful for tracking the flow of dir-config loading."
   :type 'boolean
   :group 'dir-config)
 
 (defcustom dir-config-debug nil
-  "Enable debug mode to log when a dir config file is loaded or ignored."
+  "Enable debug mode for `dir-config` operations if non-nil.
+When this option is enabled, detailed debug information will be logged for
+various `dir-config` activities, including:
+- Loading of directory config files
+- Cases where directory config files are not found
+- Internal state and processing steps
+This option is useful for diagnosing and troubleshooting complex issues with
+directory configuration handling."
   :type 'boolean
   :group 'dir-config)
 
@@ -83,15 +91,9 @@ file'."
   :type '(repeat directory)
   :group 'dir-config)
 
-(defcustom dir-config-denied-directories '()
-  "List of directory names where dir config files are denied."
-  :type '(repeat directory)
-  :group 'dir-config)
-
 ;; Internal variables
 (defvar dir-config--loaded nil)
 (defvar dir-config--allowed-p nil)
-(defvar dir-config--dir nil)
 (defvar dir-config--file nil)
 
 (defun dir-config--directory-allowed-p (file-list allowed-directories)
@@ -110,8 +112,8 @@ otherwise."
 (defun dir-config-get-dir ()
   "Return the directory of the currently loaded dir config file.
 Return `nil` if the dir config file has not been loaded."
-  (when (bound-and-true-p dir-config--dir)
-    dir-config--dir))
+  (when (bound-and-true-p dir-config--file)
+    (file-name-nondirectory dir-config--file)))
 
 (defun dir-config-get-file ()
   "Return the file of the currently loaded dir config file.
@@ -122,14 +124,21 @@ Return `nil` if the dir config file has not been loaded."
 (defun dir-config-status ()
   "Check if the dir config file have been loaded for the current buffer."
   (interactive)
-  (if (and (bound-and-true-p dir-config--dir)
+  (if (and (bound-and-true-p dir-config--file)
            (bound-and-true-p dir-config--loaded))
       (message "[dir-config] Loaded: %s" dir-config--file)
     (message "[dir-config] Not loaded")))
 
+(defun dir-config-edit-file ()
+  "Open the settings file that was loaded, if available."
+  (interactive)
+  (let ((dir-config-file (dir-config-get-file)))
+    (if dir-config-file
+        (find-file dir-config-file)
+      (message "[dir-config] The dir config file was not found."))))
+
 (defun dir-config--buffer-cwd ()
   "Return the directory of the current buffer."
-  (interactive)
   (let ((buffer-file-name (buffer-file-name (buffer-base-buffer))))
     (cond ((derived-mode-p 'dired-mode)
            (dired-current-directory))
@@ -157,17 +166,9 @@ FILE-NAMES. Returns the path to the found file or nil if none is found."
             (setq found-file (expand-file-name file-name file-path)))))
       found-file)))
 
-(defun dir-config-edit ()
-  "Open the settings file that was loaded, if available."
-  (interactive)
-  (let ((dir-config-file (dir-config-get-file)))
-    (if dir-config-file
-        (find-file dir-config-file)
-      (message "[dir-config] The dir config file was not found."))))
-
 (defun dir-config-load ()
   "Load the dir config file for CURRENT-FILE from the closest parent directory.
-Only loads settings if the directory is allowed and not denied."
+Only loads settings if the directory is allowed."
   (if (bound-and-true-p dir-config--loaded)
       (when dir-config-debug
         (message "[dir-settings] [DEBUG] Skipping load as already loaded: %s"
@@ -175,7 +176,6 @@ Only loads settings if the directory is allowed and not denied."
     (unless (bound-and-true-p dir-config-disable)
       (setq-local dir-config--loaded nil)
       (setq-local dir-config--allowed-p nil)
-      (setq-local dir-config--dir nil)
       (setq-local dir-config--file nil)
 
       (let* ((current-dir (dir-config--buffer-cwd))
@@ -185,16 +185,10 @@ Only loads settings if the directory is allowed and not denied."
         (unless current-dir
           (error "[dir-config] Failed to read the current working directory"))
         (if dir-config-file
-            (let* ((dir-config-dir (file-name-directory dir-config-file))
-                   (allowed-dir-p (dir-config--directory-allowed-p
+            (let* ((allowed-dir-p (dir-config--directory-allowed-p
                                    (list current-dir dir-config-file)
-                                   dir-config-allowed-directories))
-                   (denied-dir-p (dir-config--directory-allowed-p
-                                  (list current-dir dir-config-file)
-                                  dir-config-denied-directories)))
-              (setq-local dir-config--allowed-p (and allowed-dir-p
-                                                     (not denied-dir-p)))
-              (setq-local dir-config--dir dir-config-dir)
+                                   dir-config-allowed-directories)))
+              (setq-local dir-config--allowed-p allowed-dir-p)
               (setq-local dir-config--file dir-config-file)
               (if dir-config--allowed-p
                   (progn
@@ -212,14 +206,14 @@ Only loads settings if the directory is allowed and not denied."
                      current-dir)))))))
 
 ;;;###autoload
-(define-minor-mode dir-config-mode
-  "Toggle `dir-config-mode'.
-When enabled, `dir-config-mode' loads directory-specific settings
+(define-minor-mode global-dir-config-mode
+  "Toggle `global-dir-config-mode'.
+When enabled, `global-dir-config-mode' loads directory-specific settings
 automatically."
   :global t
   :lighter " LocCfg"
   :group 'dir-config
-  (if dir-config-mode
+  (if global-dir-config-mode
       (add-hook 'find-file-hook #'dir-config-load)
     (remove-hook 'find-file-hook #'dir-config-load)))
 

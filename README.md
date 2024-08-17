@@ -11,8 +11,8 @@ For instance, you can use the `dir-config` package to:
 
 Features:
 - Automatic Configuration Discovery: Searches for and loads `.dir-config.el` file from the directory of the current buffer or its parent directories.
-- Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `dir-config-allowed-directories` and `dir-config-denied-directories`, ensuring control over where configuration files are sourced from.
-- The `dir-config-mode` mode: Automatically loads the `.dir-config.el` file whenever a file or directory is opened, leveraging the `find-file-hook` to ensure that the dir configurations are applied.
+- Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `dir-config-allowed-directories`, ensuring control over where configuration files are sourced from.
+- The `global-dir-config-mode` mode: Automatically loads the `.dir-config.el` file whenever a file or directory is opened, leveraging the `find-file-hook` to ensure that the dir configurations are applied.
 - The `.dir-config.el` file name can be changed by modifying the `dir-config-file-names` defcustom.
 
 ## Installation
@@ -34,14 +34,13 @@ To install the `dir-config` using `straight.el`:
   :custom
   (dir-config-file-names '(".dir-config.el"))
   (dir-config-allowed-directories '("~/src" "~/projects"))
-  (dir-config-denied-directories '("~/src/excluded_dir"))
   :config
-  (dir-config-mode))
+  (global-dir-config-mode))
 ```
 
 Note:
 - The dir-config file names can be customized by modifying: ```(setq dir-config-file-names '(".project-config.el" ".dir-config.el"))```. With this configuration, Emacs will search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
-- You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `dir-config-mode` is active.
+- You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `global-dir-config-mode` is active.
 
 ## Usage
 
@@ -53,14 +52,16 @@ Assuming that the `dir-config-dir` package has been configured to allow loading 
 Adding the following code to the `~/src/my_python_project/.dir-config.el` file can modify the `PYTHONPATH` environment variable for Python buffers within its directory or one of its subdirectories (e.g., `~/src/my_python_project/my_python_project/file.py`). Modifying `PYTHONPATH` ensures that processes executed by tools like Flycheck or Flymake have access to the Python project's modules:
 ``` emacs-lisp
 ;;; .dir-config.el --- Directory config -*- no-byte-compile: t; lexical-binding: t; -*-
-
-(when (or (derived-mode-p 'python-ts-mode) (derived-mode-p 'python-mode))
-  (let ((python-path (getenv "PYTHONPATH"))
-        (dir-config-dir (dir-config-get-dir)))
-    (when dir-config-dir
-      (setenv "PYTHONPATH"
-              (concat dir-config-dir (when python-path
-                                           (concat ":" python-path)))))))
+(let ((python_path_env (getenv "PYTHONPATH"))
+      (dir (dir-config-get-dir)))
+  ;; This ensures that the processes that are executed by Flycheck or
+  ;; Flake8, can access the environment variables PYTHONPATH.
+  (when dir
+    (setq-local process-environment
+                (cons (concat "PYTHONPATH="
+                              (dir-config-get-dir)
+                              (if python_path_env (concat ":" python_path_env) ""))
+                      process-environment))))
 ```
 
 It is recommended to always begin your `.dir-config.el` files with the following header:

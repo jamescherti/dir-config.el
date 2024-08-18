@@ -82,6 +82,13 @@ found, it will then search for the .project-config.el fil."
   :type '(repeat string)
   :group 'dir-config)
 
+(defcustom dir-config-allowed-directories '()
+  "List of directory names where dir-config files are allowed.
+Both the dir-config file (e.g., '.dir-config.el') and the buffer path must be
+under these directories, not just the dir-config file."
+  :type '(repeat directory)
+  :group 'dir-config)
+
 (defcustom dir-config-verbose nil
   "If non-nil, enable verbose logging for dir-config operations.
 When enabled, detailed logs will be produced when a dir-config file (e.g.,
@@ -90,24 +97,15 @@ dir-config loading."
   :type 'boolean
   :group 'dir-config)
 
-(defcustom dir-config-debug nil
+(defvar dir-config-debug nil
   "Enable debug mode for dir-config operations if non-nil.
 When this option is enabled, detailed debug information will be logged for
 various dir-config activities, including:
-- Loading of directory config files
-- Cases where directory config files are not found
-- Internal state and processing steps
-- No error handling
-This option is useful for diagnosing and troubleshooting complex issues."
-  :type 'boolean
-  :group 'dir-config)
-
-(defcustom dir-config-allowed-directories '()
-  "List of directory names where dir-config files are allowed.
-Both the dir-config file (e.g., '.dir-config.el') and the buffer path must be
-under these directories, not just the dir-config file."
-  :type '(repeat directory)
-  :group 'dir-config)
+- Loading of directory config files,
+- Cases where directory config files are not found,
+- Internal state and processing steps,
+- No error handling.
+This option is useful for diagnosing and troubleshooting complex issues.")
 
 ;; Internal variables
 (defvar dir-config--loaded nil)

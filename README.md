@@ -88,7 +88,7 @@ Here is the difference between using `.dir-locals.el` and the `.dir-config.el` f
   - Only a single `.dir-locals.el` file can be specified by modifying the `dir-locals-file` variable.
 
 - `.dir-config.el` (this package):
-  - Loads and evaluates Emacs Lisp code (dynamic).
+  - Loads and evaluates Emacs Lisp code (dynamic by default).
   - `.dir-config.el` files are easier to maintain, as they use standard Elisp code instead of nested alists.
   - Allows specifying multiple `.dir-config.el` file names by adding them to the `dir-config-file-names` list.
 

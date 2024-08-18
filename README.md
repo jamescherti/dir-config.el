@@ -88,6 +88,14 @@ Here is the difference between using `.dir-locals.el` and the `.dir-config.el` f
 
 If the user’s needs primarily involve configuring Emacs variables, the built-in `.dir-locals.el` is sufficient. For more advanced, project-specific configurations that include code execution and comprehensive environment management, `.dir-config.el` files offer more flexibility and control.
 
+### Wouldn't it be better to move complex dir local Elisp code into init.el?
+
+Dir config files (`.dir-config.el`) offer advantages for managing complex directory-specific configurations that require dynamic logic. They allow projects or directories to define their needs, providing flexibility to customize configurations to specific requirements.
+
+For example, one of the author's use cases is to use `dir-config.el` to enable Emacs features only in trusted directories while keeping these features disabled by default (for security reasons, some code linters need to be disabled by default because they evaluate code).
+
+While this code could be included in the author's init file, he prefers to keep the init file as a general editor configuration without project-specific details. Since the author uses multiple machines for various purposes, he finds it more straightforward to let the filesystem hierarchy (e.g., a Git repository or a project directory) determine the specific settings for each directory or project using `.dir-config.el`.
+
 ## License
 
 Copyright (C) 2023-2024 [James Cherti](https://www.jamescherti.com)

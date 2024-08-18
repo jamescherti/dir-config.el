@@ -92,7 +92,7 @@ Here is the difference between using `.dir-locals.el` and the `.dir-config.el` f
   - `.dir-config.el` files are easier to maintain, as they use standard Elisp code instead of nested alists.
   - Allows specifying multiple `.dir-config.el` file names by adding them to the `dir-config-file-names` list.
 
-### Wouldn't it be better to move complex Elisp code into Emacs init?
+### Wouldn't it be better to move .dir-config.el Elisp code into Emacs init?
 
 Dir config files (`.dir-config.el`) offer advantages for managing complex directory-specific configurations that require dynamic logic. They allow projects or directories to define their needs, providing flexibility to customize configurations to specific requirements.
 

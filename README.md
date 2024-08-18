@@ -77,16 +77,20 @@ The `dir-config` package allows for automatic application of specific configurat
 Here is the difference between using `.dir-locals.el` and the `.dir-config.el` files:
 
 - `.dir-locals.el` (built-in):
-  - Primarily used for setting per-directory local variables.
-  - The syntax of `.dir-locals.el` relies heavily on nested lists and alist structures. This can quickly become **difficult to read and maintain**, especially for more complex configurations.
-  - The configuration in `dir-locals.el` is inherently static unless dynamic behavior is explicitly added using `eval`.
+  - Primarily used for setting per-directory local variables (static).
+  - The syntax of `.dir-locals.el` relies heavily on nested lists and alist structures which can quickly become difficult to read and maintain.
+  - The configuration in `dir-locals.el` is inherently static unless dynamic behavior is explicitly added using `eval`. Here is an example of `.dir-locals.el`:
+    ```
+    ((nil . ((eval . (progn
+                       (setq-local my-variable t)
+                       (message "Hello world"))))))
+    ```
+  - Only a single `.dir-locals.el` file can be specified by modifying the `dir-locals-file` variable.
 
 - `.dir-config.el` (this package):
-  - Provides more extensive capabilities by loading and evaluating Emacs Lisp code for tasks such as environment configuration, keybindings, and other complex setup processes.
-  - Better suited for more complex, project-specific setups where additional customization and dynamic behavior are required.
+  - Loads and evaluates Emacs Lisp code (dynamic).
   - `.dir-config.el` files are easier to maintain, as they use standard Elisp code instead of nested alists.
-
-If the user’s needs primarily involve configuring Emacs variables, the built-in `.dir-locals.el` is sufficient. For more advanced, project-specific configurations that include code execution and comprehensive environment management, `.dir-config.el` files offer more flexibility and control.
+  - Allows specifying multiple `.dir-config.el` file names by adding them to the `dir-config-file-names` list.
 
 ### Wouldn't it be better to move complex dir local Elisp code into Emacs init?
 

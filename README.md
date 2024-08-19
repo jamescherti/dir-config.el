@@ -1,6 +1,5 @@
 # dir-config.el - Automatically find and evaluate .dir-config.el Elisp files (Flexible dir-locals alternative)
 [![MELPA](https://melpa.org/packages/dir-config-badge.svg)](https://melpa.org/#/dir-config)
-
 ![Build Status](https://github.com/jamescherti/dir-config.el/actions/workflows/ci.yml/badge.svg)
 ![](https://raw.githubusercontent.com/jamescherti/dir-config.el/main/.images/made-for-gnu-emacs.svg)
 

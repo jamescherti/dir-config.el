@@ -1,4 +1,5 @@
 # dir-config.el - Automatically find and evaluate .dir-config.el Elisp files (Flexible dir-locals alternative)
+[![MELPA](https://melpa.org/packages/dir-config-badge.svg)](https://melpa.org/#/dir-config)
 
 ![Build Status](https://github.com/jamescherti/dir-config.el/actions/workflows/ci.yml/badge.svg)
 ![](https://raw.githubusercontent.com/jamescherti/dir-config.el/main/.images/made-for-gnu-emacs.svg)
@@ -20,18 +21,10 @@ Features:
 
 ### Install using straight
 
-To install the `dir-config` using `straight.el`:
-
-1. If you haven't already done so, [add the straight.el bootstrap code](https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started) to your init file.
-
-2. Add the following code to your Emacs init file:
+The `vim-tab-bar` package can be installed from MELPA by adding the following to your init.el:
 ``` emacs-lisp
 (use-package dir-config
   :ensure t
-  :straight (dir-config
-             :type git
-             :host github
-             :repo "jamescherti/dir-config.el")
   :custom
   (dir-config-file-names '(".dir-config.el"))
   (dir-config-allowed-directories '("~/src" "~/projects"))
@@ -114,6 +107,7 @@ You should have received a copy of the GNU General Public License along with thi
 ## Links
 
 - [dir-config.el @GitHub](https://github.com/jamescherti/dir-config.el)
+- [dir-config.el @MELPA](https://melpa.org/#/dir-config)
 
 Other Emacs packages by the same author:
 - [minimal-emacs.d](https://github.com/jamescherti/minimal-emacs.d): This repository hosts a minimal Emacs configuration designed to serve as a foundation for your vanilla Emacs setup and provide a solid base for an enhanced Emacs experience.

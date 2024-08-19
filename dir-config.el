@@ -1,4 +1,4 @@
-;;; dir-config.el --- Automatically find and load and evaluate .dir-config.el -*- lexical-binding: t; -*-
+;;; dir-config.el --- Automatically find and evaluate .dir-config.el (Flexible dir-locals alternative) -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2003-2024  James Cherti | https://www.jamescherti.com/contact/
 

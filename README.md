@@ -1,4 +1,5 @@
-# dir-config.el - Automatically find and evaluate .dir-config.el Elisp files to configure directory-specific settings
+# dir-config.el - Automatically find and evaluate .dir-config.el Elisp files (Flexible dir-locals alternative)
+
 ![Build Status](https://github.com/jamescherti/dir-config.el/actions/workflows/ci.yml/badge.svg)
 ![](https://raw.githubusercontent.com/jamescherti/dir-config.el/main/.images/made-for-gnu-emacs.svg)
 

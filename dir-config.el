@@ -49,7 +49,7 @@
 ;;   to directories listed in the variable `dir-config-allowed-directories',
 ;;   ensuring control over where configuration files are sourced from.
 ;;
-;; - The `global-dir-config-mode' mode: Automatically loads the '.dir-config.el'
+;; - The `dir-config-mode' mode: Automatically loads the '.dir-config.el'
 ;;   file whenever a file or directory is opened, leveraging the
 ;;   `find-file-hook' to ensure that the dir configurations are applied.
 ;;
@@ -71,13 +71,13 @@
 (defcustom dir-config-file-names '(".dir-config.el")
   "List of filenames for directory configuration files.
 
-The `global-dir-config-mode' mode will search for these files in the directory
+The `dir-config-mode' mode will search for these files in the directory
 hierarchy of the current buffer, starting from the buffer's directory and moving
 upward through parent directories. The first existing file found will be used
 for configuration.
 
 For example, if this list contains .dir-config.el and .project-config.el,
-`global-dir-config-mode' will search for the .dir-config.el file first. If not
+`dir-config-mode' will search for the .dir-config.el file first. If not
 found, it will then search for the .project-config.el fil."
   :type '(repeat string)
   :group 'dir-config)
@@ -260,16 +260,20 @@ from the closest parent directory of the buffer."
   dir-config--loaded)
 
 ;;;###autoload
-(define-minor-mode global-dir-config-mode
-  "Toggle `global-dir-config-mode'.
-When enabled, `global-dir-config-mode' loads directory-specific settings
+(define-minor-mode dir-config-mode
+  "Toggle `dir-config-mode'.
+When enabled, `dir-config-mode' loads directory-specific settings
 automatically."
   :global t
   :lighter " DirCfg"
   :group 'dir-config
-  (if global-dir-config-mode
+  (if dir-config-mode
       (add-hook 'find-file-hook #'dir-config-load)
     (remove-hook 'find-file-hook #'dir-config-load)))
+
+(define-obsolete-function-alias
+  'global-dir-config-mode 'dir-config-mode "1.0.2"
+  "Use `dir-config-mode` instead.")
 
 (provide 'dir-config)
 ;;; dir-config.el ends here

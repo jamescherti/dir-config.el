@@ -13,7 +13,7 @@ For instance, you can use the `dir-config` package to:
 Features:
 - Automatic Configuration Discovery: Searches for and loads `.dir-config.el` file from the directory of the current buffer or its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `dir-config-allowed-directories`, ensuring control over where configuration files are sourced from.
-- The `global-dir-config-mode` mode: Automatically loads the `.dir-config.el` file whenever a file or directory is opened, leveraging the `find-file-hook` to ensure that the dir configurations are applied.
+- The `dir-config-mode` mode: Automatically loads the `.dir-config.el` file whenever a file or directory is opened, leveraging the `find-file-hook` to ensure that the dir configurations are applied.
 - The `.dir-config.el` file name can be changed by modifying the `dir-config-file-names` defcustom.
 
 ## Installation
@@ -28,12 +28,12 @@ The `vim-tab-bar` package can be installed from MELPA by adding the following to
   (dir-config-file-names '(".dir-config.el"))
   (dir-config-allowed-directories '("~/src" "~/projects"))
   :config
-  (global-dir-config-mode))
+  (dir-config-mode))
 ```
 
 Note:
 - The dir-config file names can be customized by modifying the dir-config-file-names variable. For instance: ```(setq dir-config-file-names '(".project-config.el" ".dir-config.el"))``` will make `dir-config` search for the `.project-config.el` file first, and if it is not found, it will then search for the `.dir-config.el` file'.
-- You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `global-dir-config-mode` is active.
+- You can set `(setq dir-config-verbose t)` and `(setq dir-config-debug t)` to increase the verbosity of messages each time a file is loaded while `dir-config-mode` is active.
 
 ## Example usage
 

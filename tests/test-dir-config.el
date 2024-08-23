@@ -64,7 +64,20 @@
     (when (file-exists-p base-dir)
       (error "The directory '%s' should not exist" base-dir))
     (make-directory code-dir t)
-    (global-dir-config-mode 1)
+
+    (global-dir-config-mode 1)  ; test alias
+    (unless dir-config-mode
+      (error
+       "The global-dir-config-mode alias failed to activate dir-config-mode"))
+    (dir-config-mode -1)
+    (when dir-config-mode
+      (error
+       "dir-config-mode could not disable the mode"))
+    (dir-config-mode 1)
+    (unless dir-config-mode
+      (error
+       "dir-config-mode could not enable the mode"))
+
     (with-temp-buffer
       (insert "(setq test-dir-config-successful t)\n")
       (write-file dir-config-file))

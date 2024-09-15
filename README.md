@@ -20,7 +20,11 @@ Features:
 
 ### Install using straight
 
-The `vim-tab-bar` package can be installed from MELPA by adding the following to your init.el:
+To install the `dir-config` from MELPA:
+
+1. If you haven't already done so, [add MELPA repository to your Emacs configuration](https://melpa.org/#/getting-started).
+
+2. Add the following code to your Emacs init file to install `dir-config` from MELPA:
 ``` emacs-lisp
 (use-package dir-config
   :ensure t

@@ -165,19 +165,14 @@ Returns:
           (file-name
            (file-name-directory file-name)))))
 
-(defun dir-config--find-dominating-file (file-names start-dir)
-  "Locate the first available file from FILE-NAMES in the directory hierarchy.
-Searches upward from START-DIR and returns the path to the first found file,
-or nil if none is found."
-  (when file-names
-    (let ((found-file nil))
-      (dolist (file-name file-names)
-        (let ((file-path
-               (locate-dominating-file start-dir
-                                       (file-name-nondirectory file-name))))
-          (when file-path
-            (setq found-file (expand-file-name file-name file-path)))))
-      found-file)))
+(defun dir-config--find-dir-config-file-names (path)
+  "Return any existing `dir-config-file-names' in PATH or nil if not found."
+  (when path
+    (catch 'found
+      (dolist (file-name dir-config-file-names)
+        (let ((file-path (expand-file-name file-name path)))
+          (when (file-exists-p file-path)
+            (throw 'found file-path)))))))
 
 (defun dir-config-load ()
   "Load the dir-config file (e.g., '.dir-config.el') for the current buffer.
@@ -205,9 +200,12 @@ from the closest parent directory of the buffer."
         (setq-local dir-config--allowed-p nil)
         (setq-local dir-config--file nil)
 
-        (let* ((dir-config-file
-                (dir-config--find-dominating-file dir-config-file-names
-                                                  current-dir)))
+        (let* ((dir-config-dir
+                (locate-dominating-file current-dir
+                                        #'dir-config--find-dir-config-file-names))
+               (dir-config-file (when dir-config-dir
+                                  (dir-config--find-dir-config-file-names
+                                   dir-config-dir))))
           (if (not dir-config-file)
               (when dir-config-debug
                 (dir-config--message (concat

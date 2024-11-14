@@ -18,7 +18,7 @@ Features:
 
 ## Installation
 
-### Install using straight
+### Install with straight
 
 To install `dir-config` from MELPA:
 
@@ -71,7 +71,7 @@ The `dir-config` package allows for automatic application of specific configurat
 
 ### How does .dir-config.el files compare to .dir-locals.el?
 
-Here is the difference between using `.dir-locals.el` and the `.dir-config.el` files:
+Here is the difference between with `.dir-locals.el` and the `.dir-config.el` files:
 
 - `.dir-locals.el` (built-in):
   - Primarily used for setting per-directory local variables (static).

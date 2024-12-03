@@ -42,6 +42,7 @@
 ;;   environments or workflows by loading environment-specific configurations.
 ;;
 ;; Features:
+;; ---------
 ;; - Automatic Configuration Discovery: Searches for and loads '.dir-config.el'
 ;;   file from the directory of the current buffer or its parent directories.
 ;;
@@ -55,8 +56,21 @@
 ;;
 ;; - The '.dir-config.el' file name can be changed by modifying the
 ;;   `dir-config-file-names' defcustom.
-
-;;; Code:
+;;
+;; Installation from MELPA:
+;; ------------------------
+;; (use-package dir-config
+;;   :ensure t
+;;   :custom
+;;   (dir-config-file-names '(".dir-config.el"))
+;;   (dir-config-allowed-directories '("~/src" "~/projects"))
+;;   :config
+;;   (dir-config-mode))
+;;
+;; Links:
+;; ------
+;; - dir-config.el @GitHub:
+;;   https://github.com/jamescherti/dir-config.el
 
 (require 'dired)
 

@@ -1,4 +1,4 @@
-;;; dir-config.el --- Automatically find and evaluate .dir-config.el (Flexible dir-locals alternative) -*- lexical-binding: t; -*-
+;;; dir-config.el --- Find and evaluate .dir-config.el (dir-locals alternative) -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2003-2024  James Cherti | https://www.jamescherti.com/contact/
 
@@ -71,6 +71,8 @@
 ;; ------
 ;; - dir-config.el @GitHub:
 ;;   https://github.com/jamescherti/dir-config.el
+
+;;; Code:
 
 (require 'dired)
 

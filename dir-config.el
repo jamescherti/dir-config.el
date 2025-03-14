@@ -176,7 +176,7 @@ Returns:
 - nil if neither condition is met."
   (let ((file-name (buffer-file-name (buffer-base-buffer))))
     (cond ((derived-mode-p 'dired-mode)
-           (dired-current-directory))
+           default-directory)
 
           (file-name
            (file-name-directory file-name)))))

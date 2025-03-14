@@ -74,8 +74,6 @@
 
 ;;; Code:
 
-(require 'dired)
-
 (defgroup dir-config nil
   "Non-nil if dir-config mode mode is enabled."
   :group 'dir-config

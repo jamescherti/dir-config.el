@@ -69,6 +69,18 @@ The `dir-config` package allows for automatic application of specific configurat
 
 ## Frequently Asked Questions
 
+### How to Disable `.dir-locals.el`
+
+By default, Emacs loads `.dir-locals.el` from the current directory or its parent directories, applying project-specific settings such as indentation, compilation commands, or custom minor modes. While useful in many cases, this behavior can lead to unintended overrides.
+
+If you prefer to disable `.dir-locals.el`, you can do so by setting `enable-dir-local-variables` to `nil`:
+
+```emacs-lisp
+(setq enable-dir-local-variables nil)
+```
+
+Disabling `.dir-locals.el` ensures that only the `dir-config` Elisp files are loaded, providing a more controlled and consistent configuration environment.
+
 ### How does .dir-config.el files compare to .dir-locals.el?
 
 Here is the difference between with `.dir-locals.el` and the `.dir-config.el` files:

@@ -79,7 +79,7 @@ If you prefer to disable `.dir-locals.el`, you can do so by setting `enable-dir-
 (setq enable-dir-local-variables nil)
 ```
 
-Disabling `.dir-locals.el` ensures that only the `dir-config` Elisp files are loaded, providing a more controlled and consistent configuration environment.
+Disabling `.dir-locals.el` ensures that only the `.dir-config.el` files managed by this package are loaded, creating a more controlled and consistent configuration environment.
 
 ### How does .dir-config.el files compare to .dir-locals.el?
 

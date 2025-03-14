@@ -187,12 +187,14 @@ Searches upward from START-DIR and returns the path to the first found file,
 or nil if none is found."
   (when file-names
     (let ((found-file nil))
-      (dolist (file-name file-names)
-        (let ((file-path
-               (locate-dominating-file start-dir
-                                       (file-name-nondirectory file-name))))
-          (when file-path
-            (setq found-file (expand-file-name file-name file-path)))))
+      (catch 'done
+        (dolist (file-name file-names)
+          (let ((file-path
+                 (locate-dominating-file start-dir
+                                         (file-name-nondirectory file-name))))
+            (when file-path
+              (setq found-file (expand-file-name file-name file-path))
+              (throw 'done t)))))
       found-file)))
 
 (defun dir-config-load ()

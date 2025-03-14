@@ -123,6 +123,12 @@ various dir-config activities, including:
 - No error handling.
 This option is useful for diagnosing and troubleshooting complex issues.")
 
+(defvar dir-config-hook-depth 95
+  "The depth for `add-hook`.
+The value should be a number between -100 and 100. A value of 100 places
+`dir-config-load` at the end of the hook list, while -100 ensures it is
+executed first. By convention, it is preferable to execute it last.")
+
 ;; Internal variables
 (defvar dir-config--loaded nil)
 (defvar dir-config--allowed-p nil)
@@ -286,7 +292,7 @@ automatically."
   :lighter " DirCfg"
   :group 'dir-config
   (if dir-config-mode
-      (add-hook 'find-file-hook #'dir-config-load)
+      (add-hook 'find-file-hook #'dir-config-load dir-config-hook-depth)
     (remove-hook 'find-file-hook #'dir-config-load)))
 
 (define-obsolete-function-alias

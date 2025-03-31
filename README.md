@@ -1,6 +1,7 @@
 # dir-config.el - Automatically find and evaluate .dir-config.el Elisp files (Flexible dir-locals alternative)
-[![MELPA](https://melpa.org/packages/dir-config-badge.svg)](https://melpa.org/#/dir-config)
 ![Build Status](https://github.com/jamescherti/dir-config.el/actions/workflows/ci.yml/badge.svg)
+[![MELPA](https://melpa.org/packages/dir-config-badge.svg)](https://melpa.org/#/dir-config)
+[![MELPA Stable](https://stable.melpa.org/packages/buffer-terminator-badge.svg)](https://stable.melpa.org/#/buffer-terminator)
 ![](https://raw.githubusercontent.com/jamescherti/dir-config.el/main/.images/made-for-gnu-emacs.svg)
 
 The `dir-config` Emacs package automatically loads and evaluates Elisp code from a `.dir-config.el` file found in the buffer's current directory or its closest parent directory. This facilitates adjusting settings or executing functions specific to the directory structure of each buffer.

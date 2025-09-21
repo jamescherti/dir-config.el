@@ -11,6 +11,8 @@ For instance, you can use the `dir-config` package to:
 - **Apply directory-specific customizations**: Set specific behaviors or preferences for files in different directories, such as enabling or disabling certain minor modes based on security considerations. For example, you might disable linters that execute code in directories where you handle untrusted code.
 - **Manage multiple environments**: Switch between different coding environments or workflows by loading environment-specific configurations.
 
+If this enhances your workflow, please show your support by **⭐ starring dir-config on GitHub** to help more Emacs users discover its benefits.
+
 Features:
 - Automatic Configuration Discovery: Searches for and loads `.dir-config.el` file from the directory of the current buffer or its parent directories.
 - Selective Directory Loading: Restricts the loading of configuration files to directories listed in the variable `dir-config-allowed-directories`, ensuring control over where configuration files are sourced from.

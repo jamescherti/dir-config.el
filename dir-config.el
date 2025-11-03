@@ -283,9 +283,7 @@ from the closest parent directory of the buffer."
 
 ;;;###autoload
 (define-minor-mode dir-config-mode
-  "Toggle `dir-config-mode'.
-When enabled, `dir-config-mode' loads directory-specific settings
-automatically."
+  "Locate and evaluate .dir-config.el files to apply directory settings."
   :global t
   :lighter " DirCfg"
   :group 'dir-config

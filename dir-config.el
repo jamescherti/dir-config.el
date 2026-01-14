@@ -1,6 +1,6 @@
 ;;; dir-config.el --- Find and evaluate .dir-config.el (dir-locals alternative) -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2003-2025  James Cherti | https://www.jamescherti.com/contact/
+;; Copyright (C) 2003-2026  James Cherti | https://www.jamescherti.com/contact/
 
 ;; Author: James Cherti
 ;; Version: 1.0.2

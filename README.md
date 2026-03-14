@@ -30,7 +30,6 @@ To install `dir-config` from MELPA:
 2. Add the following code to your Emacs init file to install `dir-config` from MELPA:
 ``` emacs-lisp
 (use-package dir-config
-  :ensure t
   :custom
   (dir-config-file-names '(".dir-config.el"))
   (dir-config-allowed-directories '("~/src" "~/projects"))

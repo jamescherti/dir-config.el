@@ -3,7 +3,7 @@
 ;; Copyright (C) 2003-2026  James Cherti | https://www.jamescherti.com/contact/
 
 ;; Author: James Cherti <https://www.jamescherti.com/contact/>
-;; Version: 1.0.2
+;; Version: 1.0.3
 ;; URL: https://github.com/jamescherti/dir-config.el
 ;; Keywords: convenience, files, lisp
 ;; Package-Requires: ((emacs "25.1"))
@@ -291,7 +291,7 @@ from the closest parent directory of the buffer."
     (remove-hook 'find-file-hook #'dir-config-load)))
 
 (define-obsolete-function-alias
-  'global-dir-config-mode 'dir-config-mode "1.0.2"
+  'global-dir-config-mode 'dir-config-mode "1.0.3"
   "Use `dir-config-mode` instead.")
 
 (provide 'dir-config)

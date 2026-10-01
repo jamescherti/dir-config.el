@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023-2026 James Cherti | https://www.jamescherti.com/contact/
 
 ;; Author: James Cherti <https://www.jamescherti.com/contact/>
-;; Version: 1.0.2
+;; Version: 1.0.3
 ;; URL: https://github.com/jamescherti/dir-config.el
 ;; Keywords: convenience
 ;; Package-Requires: ((emacs "24.1"))

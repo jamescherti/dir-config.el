@@ -73,6 +73,8 @@
 
 ;;; Code:
 
+(require 'seq)
+
 (defgroup dir-config nil
   "Non-nil if dir-config mode mode is enabled."
   :group 'files

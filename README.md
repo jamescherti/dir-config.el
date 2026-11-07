@@ -5,7 +5,7 @@
 ![](https://jamescherti.com/misc/made-for-gnu-emacs.svg)
 
 - Author: James Cherti <[https://www.jamescherti.com/](https://www.jamescherti.com/)>
-- License: GPL
+- License: GPL 3.0 or later
 
 The **[dir-config](https://github.com/jamescherti/dir-config.el)** Emacs package automatically loads and evaluates Elisp code from a `.dir-config.el` file found in the buffer's current directory or its closest parent directory. This facilitates adjusting settings or executing functions specific to the directory structure of each buffer.
 
